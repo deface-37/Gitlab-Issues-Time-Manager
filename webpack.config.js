@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
@@ -20,20 +20,29 @@ module.exports = {
         test: /\.html$/i,
         loader: 'html-loader',
       },
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: '/node_modules/'
+      }
     ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
     })
   ],
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
+    watchFiles: ['src/index.html', 'dist/index.html'],
     static: path.join(__dirname, 'dist'),
     open: {
       app: {
         name: 'firefox'
-      }
-    }
+      },
+    },
   },
 };

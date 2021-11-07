@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "target": "ESNext",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports" : true,
+    "esModuleInterop" : true
+  }
+}
