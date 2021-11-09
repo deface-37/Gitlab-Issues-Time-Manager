@@ -80,3 +80,7 @@ dist/
 
 # settings
 .vscode/
+
+# api
+src/api/api.json
+api.json
