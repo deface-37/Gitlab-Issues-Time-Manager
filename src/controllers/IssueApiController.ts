@@ -1,6 +1,6 @@
 import { ReactiveController, ReactiveControllerHost } from "@lit/reactive-element";
 import query from '../api/issue-query.graphql';
-import apiInfo from '../api/api.json'
+import api from '../api/api.json'
 
 export type ApiIssue = {
   iid: string;
@@ -29,11 +29,11 @@ export class IssueController implements ReactiveController {
       variables: JSON.stringify({milestone})
     }
 
-    const response = await fetch(apiInfo.url, {
+    const response = await fetch(api.url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'PRIVATE-TOKEN': apiInfo.token
+        'PRIVATE-TOKEN': api.token
       },
       body: JSON.stringify(body)
     })

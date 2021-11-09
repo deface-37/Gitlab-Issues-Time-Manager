@@ -82,5 +82,5 @@ dist/
 .vscode/
 
 # api
-src/api/api.json
 api.json
+
