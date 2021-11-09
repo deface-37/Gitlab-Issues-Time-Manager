@@ -5,11 +5,11 @@ import { customElement, property } from 'lit/decorators.js'
 export default class IssueLit extends LitElement {
 
   @property()
-  title: string;
-  @property()
-  spend: number;
-  @property()
-  estimated: number;
+  title!: string;
+  @property({type: Number})
+  spend!: number;
+  @property({type: Number})
+  estimated!: number;
 
   static styles = css`
   :host {
@@ -31,5 +31,11 @@ export default class IssueLit extends LitElement {
       <div>Потрачено ${this.spend} часов</div>
       <div>Оценено ${this.estimated} часов</div>
     `
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'issue-lit': IssueLit
   }
 }

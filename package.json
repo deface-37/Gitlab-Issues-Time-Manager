@@ -32,6 +32,7 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
+    "@graphql-tools/webpack-loader": "^6.6.1",
     "lit": "^2.0.2"
   }
 }

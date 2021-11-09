@@ -17,13 +17,13 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.html$/i,
-        loader: 'html-loader',
-      },
-      {
         test: /\.ts$/,
         use: 'ts-loader',
         exclude: '/node_modules/'
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        type: 'asset/source'
       }
     ]
   },

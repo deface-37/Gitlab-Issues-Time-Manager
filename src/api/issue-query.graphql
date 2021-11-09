@@ -1,0 +1,15 @@
+query GetIssues($milestone: [String]!) {
+  group(fullPath: "CAD") {
+    issues(milestoneTitle: $milestone, assigneeUsernames: "malishevis") {
+      nodes {
+        iid
+        id
+        totalTimeSpent
+        timeEstimate
+        webUrl
+        closedAt
+        title
+      }
+    }
+  }
+}
