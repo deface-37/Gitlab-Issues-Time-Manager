@@ -1,14 +1,15 @@
 import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { formatIssueTime } from '../../helpers/format-helper';
 
 @customElement('issue-lit')
 export default class IssueLit extends LitElement {
 
   @property()
   title!: string;
-  @property({type: Number})
-  spend!: number;
-  @property({type: Number})
+  @property({ type: Number })
+  spent!: number;
+  @property({ type: Number })
   estimated!: number;
 
   static styles = css`
@@ -28,8 +29,8 @@ export default class IssueLit extends LitElement {
   render() {
     return html`
       <h3>${this.title}</h3>
-      <div>Потрачено ${this.spend} часов</div>
-      <div>Оценено ${this.estimated} часов</div>
+      <div>Потрачено: ${formatIssueTime(this.spent)}</div>
+      <div>Оценено: ${formatIssueTime(this.estimated)}</div>
     `
   }
 }

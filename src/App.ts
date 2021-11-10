@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit'
 import { customElement } from 'lit/decorators.js'
-import './components/Milestone/MilestoneLit.ts'
-import './components/Issue/IssueLit.ts'
+import './components/Issues/Milestone'
 
 @customElement('app-lit')
 export default class AppLit extends LitElement {

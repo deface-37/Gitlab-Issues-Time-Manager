@@ -12,7 +12,7 @@ export type ApiIssue = {
   closedAd: string;
 }
 
-export class IssueController implements ReactiveController {
+export class IssuesController implements ReactiveController {
   host: ReactiveControllerHost;
 
   constructor(host: ReactiveControllerHost) {
@@ -23,10 +23,13 @@ export class IssueController implements ReactiveController {
 
   hostConnected() { }
 
-  async fetchIssues(milestone: string):Promise<ApiIssue[]> {
+  value: ApiIssue[] = [];
+  fetching: Promise<void> = Promise.resolve()
+
+  private async _fetchIssues(milestone: string): Promise<void> {
     const body = {
       query,
-      variables: JSON.stringify({milestone})
+      variables: JSON.stringify({ milestone })
     }
 
     const response = await fetch(api.url, {
@@ -38,11 +41,15 @@ export class IssueController implements ReactiveController {
       body: JSON.stringify(body)
     })
 
-    const result = await response.json();
+    const data = await response.json();
 
-    return result.data.group.issues.nodes as ApiIssue[]
-    
+    this.value = data.data.group.issues.nodes
+
+    this.host.requestUpdate()
   }
 
-
+  fetch(milestone: string): void {
+    this.fetching = this._fetchIssues(milestone)
+    this.host.requestUpdate()
+  }
 }
