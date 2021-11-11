@@ -25,8 +25,8 @@ export class IssuesController implements ReactiveController {
 
   hostConnected() {}
 
+  isFetching = false;
   value: ApiIssue[] = [];
-  fetching: Promise<void> = Promise.resolve();
 
   private async _fetchIssues(milestone: string): Promise<void> {
     const body = {
@@ -46,12 +46,14 @@ export class IssuesController implements ReactiveController {
     const data = await response.json();
 
     this.value = data.data.group.issues.nodes;
-
-    this.host.requestUpdate();
   }
 
   fetch(milestone: string): void {
-    this.fetching = this._fetchIssues(milestone);
     this.host.requestUpdate();
+    this.isFetching = true;
+    this._fetchIssues(milestone).then(() => {
+      this.host.requestUpdate();
+      this.isFetching = false;
+    });
   }
 }
