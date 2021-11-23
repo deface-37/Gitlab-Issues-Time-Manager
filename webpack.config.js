@@ -7,25 +7,21 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
-    filename: "bundle.js",
+    filename: 'bundle.js',
     clean: true,
   },
   module: {
     rules: [
       {
         test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.ts$/,
         use: 'ts-loader',
-        exclude: '/node_modules/'
+        exclude: '/node_modules/',
       },
-      {
-        test: /\.(graphql|gql)$/,
-        type: 'asset/source'
-      }
-    ]
+    ],
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -33,7 +29,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-    })
+    }),
   ],
   devtool: 'inline-source-map',
   devServer: {
@@ -41,7 +37,7 @@ module.exports = {
     static: path.join(__dirname, 'dist'),
     open: {
       app: {
-        name: 'firefox'
+        name: 'firefox',
       },
     },
   },

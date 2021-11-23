@@ -9,7 +9,8 @@
     "start": "webpack serve",
     "build": "webpack",
     "format-src:prettier": "prettier --write src/",
-    "eslint": "eslint src"
+    "eslint": "eslint src",
+    "generate-gql": "graphql-codegen"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,11 @@
   },
   "homepage": "https://github.com/deface-37/Gitlab-Issues-Time-Manager#readme",
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.2",
+    "@graphql-codegen/typed-document-node": "^2.2.1",
+    "@graphql-codegen/typescript": "^2.4.1",
+    "@graphql-codegen/typescript-operations": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "css-loader": "^6.5.1",
@@ -38,7 +44,7 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
-    "@graphql-tools/webpack-loader": "^6.6.1",
+    "@apollo-elements/core": "^1.0.0",
     "@spectrum-web-components/action-button": "^0.7.0",
     "@spectrum-web-components/dialog": "^0.8.0",
     "@spectrum-web-components/field-label": "^0.7.0",

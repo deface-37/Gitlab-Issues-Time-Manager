@@ -2,7 +2,7 @@ import {
   ReactiveController,
   ReactiveControllerHost,
 } from '@lit/reactive-element';
-import query from '../api/issue-query.graphql';
+import { GetIssues as query}  from '../api/issue.query.graphql';
 import api from '../api/api.json';
 
 export type ApiIssue = {

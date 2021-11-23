@@ -1,0 +1,12 @@
+import * as Types from '../schema';
+
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+export type GetIssuesQueryVariables = Types.Exact<{
+  milestone: ReadonlyArray<Types.InputMaybe<Types.Scalars['String']>> | Types.InputMaybe<Types.Scalars['String']>;
+}>;
+
+
+export type GetIssuesQueryData = { readonly __typename?: 'Query', readonly group?: { readonly __typename?: 'Group', readonly issues?: { readonly __typename?: 'IssueConnection', readonly nodes?: ReadonlyArray<{ readonly __typename?: 'Issue', readonly iid: string, readonly id: string, readonly totalTimeSpent: number, readonly timeEstimate: number, readonly webUrl: string, readonly closedAt?: any | null | undefined, readonly title: string } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
+
+
+export const GetIssues = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetIssues"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"milestone"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"group"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fullPath"},"value":{"kind":"StringValue","value":"CAD","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"issues"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"milestoneTitle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"milestone"}}},{"kind":"Argument","name":{"kind":"Name","value":"assigneeUsernames"},"value":{"kind":"StringValue","value":"malishevis","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"iid"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalTimeSpent"}},{"kind":"Field","name":{"kind":"Name","value":"timeEstimate"}},{"kind":"Field","name":{"kind":"Name","value":"webUrl"}},{"kind":"Field","name":{"kind":"Name","value":"closedAt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetIssuesQueryData, GetIssuesQueryVariables>;
