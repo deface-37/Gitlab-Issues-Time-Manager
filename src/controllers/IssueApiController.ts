@@ -23,6 +23,7 @@ export class IssuesController implements ReactiveController {
     this.host = host;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   hostConnected() {}
 
   isFetching = false;
