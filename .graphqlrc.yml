@@ -1,5 +1,5 @@
-schema: 'https://gitlab.com/api/graphql' # replace with url to your graphql server
-
+schema: 'https://gitlab.com/api/graphql'
+documents: 'src/**/*.graphql'
 extensions:
   codegen:
     config: # season to taste
@@ -14,23 +14,16 @@ extensions:
       useIndexSignature: true # required for compatibility with apollo server
 
     generates:
-      # generate the base schema types for client-side documents
       src/schema.ts:
-        schema: src/client.schema.graphql
         plugins:
-          - typescript-operations
+          - 'typescript'
+          - 'typescript-operations'
       # generate `.ts` files colocated with each `.graphql` operation
       src/:
-        schema: src/client.schema.graphql
         preset: near-operation-file
         presetConfig:
           baseTypesPath: schema.ts
-          extension: .graphql.ts
+          extension: .ts
         plugins:
           - typescript-operations
           - typed-document-node
-        documents:
-          - src/**/*.fragment.graphql
-          - src/**/*.mutation.graphql
-          - src/**/*.query.graphql
-          - src/**/*.subscription.graphql

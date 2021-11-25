@@ -4,13 +4,14 @@
   "description": "Приложение позволяет управлять задачами в gitlab",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch",
-    "start": "webpack serve",
+    "start:watch-files": "webpack --watch",
+    "start:serve": "webpack serve",
+    "start:codegen": "graphql-codegen --watch",
     "build": "webpack",
-    "format-src:prettier": "prettier --write src/",
+    "build:prettier": "prettier --write src/",
+    "build:codegen": "graphql-codegen",
     "eslint": "eslint src",
-    "generate-gql": "graphql-codegen"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

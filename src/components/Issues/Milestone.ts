@@ -2,8 +2,6 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { IssuesController } from '../../controllers/IssueApiController';
 import { formatIssueTime } from '../../helpers/format-helper';
-import { ApolloQueryController } from '@apollo-elements/core';
-import { GetIssues } from '../../api/issue.query.graphql';
 
 import './IssuesList';
 import '../common/Loader';
@@ -38,7 +36,6 @@ export default class MilestoneLit extends LitElement {
     }
   `;
   private _issues = new IssuesController(this);
-  private _issuesController = new ApolloQueryController(this, GetIssues);
 
   private _clickHandler() {
     this._issues.fetch(this.title);

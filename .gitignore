@@ -84,3 +84,7 @@ dist/
 # api
 api.json
 
+# generated schemas
+src/schema.ts
+*.query.ts
+*.mutation.ts
