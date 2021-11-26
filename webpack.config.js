@@ -21,10 +21,16 @@ module.exports = {
         use: 'ts-loader',
         exclude: '/node_modules/',
       },
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js', 'cjs', 'mjs'],
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -3,6 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 import { IssuesController } from '../../controllers/IssueApiController';
 import { formatIssueTime } from '../../helpers/format-helper';
 
+// import '@apollo-elements/components/apollo-client';
+import { ApolloQueryController } from '@apollo-elements/core';
+import { GetIssues } from '../../api/issue.query';
+
 import './IssuesList';
 import '../common/Loader';
 
@@ -36,6 +40,9 @@ export default class MilestoneLit extends LitElement {
     }
   `;
   private _issues = new IssuesController(this);
+  private _apolloIssues = new ApolloQueryController(this, GetIssues, {
+    variables: { milestone: this.title },
+  });
 
   private _clickHandler() {
     this._issues.fetch(this.title);
@@ -64,6 +71,10 @@ export default class MilestoneLit extends LitElement {
     const issuesList = this._issues.isFetching
       ? html`<loader-lit></loader-lit>`
       : html`<issues-list .issues=${this._issues.value}></issues-list>`;
+
+    // const issuesList = this._issues.isFetching
+    //   ? html`<loader-lit></loader-lit>`
+    //   : html`<issues-list .issues=${this._issues.value}></issues-list>`;
 
     return html`
       <div id="title">

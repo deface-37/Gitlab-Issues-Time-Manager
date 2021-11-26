@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/deface-37/Gitlab-Issues-Time-Manager#readme",
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/cli": "^1.9.0",
     "@graphql-codegen/near-operation-file-preset": "^2.2.2",
     "@graphql-codegen/typed-document-node": "^2.2.1",
     "@graphql-codegen/typescript": "^2.4.1",
@@ -45,7 +45,8 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
-    "@apollo-elements/core": "^1.0.0",
+    "@apollo-elements/components": "^2.0.0-next.0",
+    "@apollo-elements/core": "^1.0.1-next.0",
     "@spectrum-web-components/action-button": "^0.7.0",
     "@spectrum-web-components/dialog": "^0.8.0",
     "@spectrum-web-components/field-label": "^0.7.0",

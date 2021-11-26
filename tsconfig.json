@@ -8,10 +8,11 @@
     "moduleResolution": "Node",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports" : true,
-    "esModuleInterop" : true,
-    "typeRoots": ["node_modules/@types", "src/@types"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "resolveJsonModule": true
   },
-
 }
