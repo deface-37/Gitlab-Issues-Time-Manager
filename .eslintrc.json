@@ -14,5 +14,5 @@
     },
     "plugins": [
         "@typescript-eslint"
-    ],
+    ]
 }

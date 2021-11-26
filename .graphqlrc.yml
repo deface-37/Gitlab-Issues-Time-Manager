@@ -17,7 +17,6 @@ extensions:
       src/schema.ts:
         plugins:
           - 'typescript'
-          - 'typescript-operations'
       # generate `.ts` files colocated with each `.graphql` operation
       src/:
         preset: near-operation-file

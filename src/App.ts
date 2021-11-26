@@ -18,7 +18,7 @@ export default class AppLit extends LitElement {
     return html`
       <sp-theme color="light" scale="medium">
         <settings-modal></settings-modal>
-        <milestone-lit title="Спринт 85"> </milestone-lit>
+        <milestone-lit title="Спринт 87"> </milestone-lit>
       </sp-theme>
     `;
   }

@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './Issue';
-import { ApiIssue } from '../../controllers/IssueApiController';
+
+import { Issue as ApiIssue } from '../../schema';
 
 @customElement('issues-list')
 class IssuesList extends LitElement {

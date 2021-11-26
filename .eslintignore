@@ -1,0 +1,6 @@
+# Общая схема
+schema.ts
+# Запросы
+*.query.ts
+
+webpack.config.js

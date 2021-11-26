@@ -4,10 +4,11 @@
   "description": "Приложение позволяет управлять задачами в gitlab",
   "main": "index.js",
   "scripts": {
-    "start:watch-files": "webpack --watch",
+    "start:watch-webpack": "webpack --watch",
     "start:serve": "webpack serve",
     "start:codegen": "graphql-codegen --watch",
-    "build": "webpack",
+    "build:all": "run-s build:codegen build:webpack",
+    "build:webpack": "webpack",
     "build:prettier": "prettier --write src/",
     "build:codegen": "graphql-codegen",
     "eslint": "eslint src",
@@ -34,6 +35,7 @@
     "css-loader": "^6.5.1",
     "eslint": "^8.3.0",
     "html-webpack-plugin": "^5.5.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "2.4.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
@@ -45,8 +47,8 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
-    "@apollo-elements/components": "^2.0.0-next.0",
-    "@apollo-elements/core": "^1.0.1-next.0",
+    "@apollo-elements/components": "^2.0.0",
+    "@apollo-elements/core": "^1.0.0",
     "@spectrum-web-components/action-button": "^0.7.0",
     "@spectrum-web-components/dialog": "^0.8.0",
     "@spectrum-web-components/field-label": "^0.7.0",

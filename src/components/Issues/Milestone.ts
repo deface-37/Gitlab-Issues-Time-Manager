@@ -1,11 +1,9 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IssuesController } from '../../controllers/IssueApiController';
 import { formatIssueTime } from '../../helpers/format-helper';
 
-// import '@apollo-elements/components/apollo-client';
 import { ApolloQueryController } from '@apollo-elements/core';
-import { GetIssues } from '../../api/issue.query';
+import { GetIssues, GetIssuesQueryData } from '../../api/issue.query';
 
 import './IssuesList';
 import '../common/Loader';
@@ -39,17 +37,29 @@ export default class MilestoneLit extends LitElement {
       flex-grow: 1;
     }
   `;
-  private _issues = new IssuesController(this);
-  private _apolloIssues = new ApolloQueryController(this, GetIssues, {
-    variables: { milestone: this.title },
-  });
+
+  @property()
+  title: string;
+
+  private _apolloIssues = new ApolloQueryController(this, GetIssues);
+  private _issuesList: readonly {
+    readonly __typename?: 'Issue';
+    readonly iid: string;
+    readonly id: string;
+    readonly totalTimeSpent: number;
+    readonly timeEstimate: number;
+    readonly webUrl: string;
+    readonly closedAt?: any;
+    readonly title: string;
+  }[];
 
   private _clickHandler() {
-    this._issues.fetch(this.title);
+    this._apolloIssues.refetch({ milestone: this.title });
+    this.requestUpdate();
   }
 
   private _getTotalSpentTime(): string {
-    const timeInSeconds = this._issues.value.reduce((totalTime, issue) => {
+    const timeInSeconds = this._issuesList.reduce((totalTime, issue) => {
       return totalTime + issue.totalTimeSpent;
     }, 0);
 
@@ -57,35 +67,39 @@ export default class MilestoneLit extends LitElement {
   }
 
   private _getTotalEstimatedTime(): string {
-    const timeInSeconds = this._issues.value.reduce((totalTime, issue) => {
+    const timeInSeconds = this._issuesList.reduce((totalTime, issue) => {
       return totalTime + issue.timeEstimate;
     }, 0);
 
     return formatIssueTime(timeInSeconds);
   }
 
-  @property()
-  title: string;
+  willUpdate(props: Map<string, any>) {
+    // Делаем запрос когда поменялся заголовок вехи
+    if (props.has('title')) {
+      this._apolloIssues.refetch({ milestone: this.title });
+    }
+  }
 
   render() {
-    const issuesList = this._issues.isFetching
-      ? html`<loader-lit></loader-lit>`
-      : html`<issues-list .issues=${this._issues.value}></issues-list>`;
+    this._issuesList = this._apolloIssues.data?.group?.issues?.nodes || [];
 
-    // const issuesList = this._issues.isFetching
-    //   ? html`<loader-lit></loader-lit>`
-    //   : html`<issues-list .issues=${this._issues.value}></issues-list>`;
+    const issuesList = this._apolloIssues.loading
+      ? html`<loader-lit></loader-lit>`
+      : html`<issues-list .issues=${this._issuesList}></issues-list>`;
 
     return html`
       <div id="title">
         <h2>${this.title}</h2>
         <button
           @click=${this._clickHandler}
-          ?disabled=${this._issues.isFetching}
+          ?disabled=${this._apolloIssues.loading}
         >
           Запросить задачи
         </button>
       </div>
+      <div>Error: ${this._apolloIssues.error}</div>
+      <div>Errors: ${this._apolloIssues.errors}</div>
       ${issuesList}
       <div class="totalTime">
         <div>Всего потрачено: ${this._getTotalSpentTime()}</div>

@@ -43,7 +43,7 @@ module.exports = {
     static: path.join(__dirname, 'dist'),
     open: {
       app: {
-        name: 'firefox',
+        name: 'firefox -start-debugger-server',
       },
     },
   },
