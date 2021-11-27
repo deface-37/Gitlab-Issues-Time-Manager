@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
 import { ApolloQueryController } from '@apollo-elements/core';
-import { GetIssues, GetIssuesQueryData } from '../../api/issue.query';
+import { GetIssues } from '../../api/issue.query';
 
 import './IssuesList';
 import '../common/Loader';
@@ -42,16 +42,6 @@ export default class MilestoneLit extends LitElement {
   title: string;
 
   private _apolloIssues = new ApolloQueryController(this, GetIssues);
-  private _issuesList: readonly {
-    readonly __typename?: 'Issue';
-    readonly iid: string;
-    readonly id: string;
-    readonly totalTimeSpent: number;
-    readonly timeEstimate: number;
-    readonly webUrl: string;
-    readonly closedAt?: any;
-    readonly title: string;
-  }[];
 
   private _clickHandler() {
     this._apolloIssues.refetch({ milestone: this.title });
@@ -74,16 +64,18 @@ export default class MilestoneLit extends LitElement {
     return formatIssueTime(timeInSeconds);
   }
 
-  willUpdate(props: Map<string, any>) {
+  willUpdate(props: Map<string, unknown>) {
     // Делаем запрос когда поменялся заголовок вехи
     if (props.has('title')) {
       this._apolloIssues.refetch({ milestone: this.title });
     }
   }
 
-  render() {
-    this._issuesList = this._apolloIssues.data?.group?.issues?.nodes || [];
+  get _issuesList() {
+    return this._apolloIssues.data?.group?.issues?.nodes || [];
+  }
 
+  render() {
     const issuesList = this._apolloIssues.loading
       ? html`<loader-lit></loader-lit>`
       : html`<issues-list .issues=${this._issuesList}></issues-list>`;

@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './Issue';
 
-import { Issue as ApiIssue } from '../../schema';
+import { IssueFieldsFragment } from '../../api/issue.query';
 
 @customElement('issues-list')
 class IssuesList extends LitElement {
@@ -18,7 +18,7 @@ class IssuesList extends LitElement {
   `;
 
   @property({ attribute: false })
-  issues: ApiIssue[] = [];
+  issues: IssueFieldsFragment[] = [];
 
   render() {
     return this.issues.map((issue) => {
