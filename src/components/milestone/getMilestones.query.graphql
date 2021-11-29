@@ -1,0 +1,9 @@
+query GetMilestones {
+  group(fullPath: "CAD") {
+    milestones(state: active) {
+      nodes {
+        ...MilestoneFields
+      }
+    }
+  }
+}

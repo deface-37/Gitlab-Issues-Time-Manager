@@ -5,7 +5,7 @@ import { formatIssueTime } from '../../helpers/format-helper';
 import { ApolloQueryController } from '@apollo-elements/core';
 import { GetIssues } from '../../api/issue.query';
 
-import './IssuesList';
+import '../Issues/IssuesList';
 import '../common/Loader';
 
 @customElement('milestone-lit')
@@ -18,7 +18,8 @@ export default class MilestoneLit extends LitElement {
       border: 1px solid black;
       height: 90vh;
       box-sizing: border-box;
-      margin: 5vh auto;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
       padding: 10px;
       border-radius: 5px;
     }
@@ -85,10 +86,7 @@ export default class MilestoneLit extends LitElement {
     return html`
       <div id="title">
         <h2>${this.title}</h2>
-        <button
-          @click=${this._clickHandler}
-          ?disabled=${this._issuesController.loading}
-        >
+        <button @click=${this._clickHandler} ?disabled=${this._issuesController.loading}>
           Запросить задачи
         </button>
       </div>

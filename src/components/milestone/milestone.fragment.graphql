@@ -1,0 +1,4 @@
+fragment MilestoneFields on Milestone {
+  title
+  id
+}
