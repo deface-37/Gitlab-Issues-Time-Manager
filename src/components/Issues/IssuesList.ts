@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './Issue';
 
-import { IssueFieldsFragment } from '../../api/issue.query';
+import { IssueFieldsFragment } from '../../api/issueFields.fragment';
 
 @customElement('issues-list')
 class IssuesList extends LitElement {

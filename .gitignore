@@ -88,3 +88,4 @@ api.json
 src/schema.ts
 *.query.ts
 *.mutation.ts
+*.fragment.ts

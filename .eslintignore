@@ -1,6 +1,8 @@
 # Общая схема
-schema.ts
+src/schema.ts
 # Запросы
 *.query.ts
+*.mutation.ts
+*.fragment.ts
 
 webpack.config.js

@@ -41,10 +41,12 @@ export default class MilestoneLit extends LitElement {
   @property()
   title: string;
 
-  private _apolloIssues = new ApolloQueryController(this, GetIssues);
+  private _issuesController = new ApolloQueryController(this, GetIssues, {
+    variables: { milestone: this.title },
+  });
 
   private _clickHandler() {
-    this._apolloIssues.refetch({ milestone: this.title });
+    this._issuesController.refetch({ milestone: this.title });
     this.requestUpdate();
   }
 
@@ -67,16 +69,16 @@ export default class MilestoneLit extends LitElement {
   willUpdate(props: Map<string, unknown>) {
     // Делаем запрос когда поменялся заголовок вехи
     if (props.has('title')) {
-      this._apolloIssues.refetch({ milestone: this.title });
+      this._issuesController.refetch({ milestone: this.title });
     }
   }
 
   get _issuesList() {
-    return this._apolloIssues.data?.group?.issues?.nodes || [];
+    return this._issuesController.data?.group?.issues?.nodes || [];
   }
 
   render() {
-    const issuesList = this._apolloIssues.loading
+    const issuesList = this._issuesController.loading
       ? html`<loader-lit></loader-lit>`
       : html`<issues-list .issues=${this._issuesList}></issues-list>`;
 
@@ -85,13 +87,13 @@ export default class MilestoneLit extends LitElement {
         <h2>${this.title}</h2>
         <button
           @click=${this._clickHandler}
-          ?disabled=${this._apolloIssues.loading}
+          ?disabled=${this._issuesController.loading}
         >
           Запросить задачи
         </button>
       </div>
-      <div>Error: ${this._apolloIssues.error}</div>
-      <div>Errors: ${this._apolloIssues.errors}</div>
+      <div>Error: ${this._issuesController.error}</div>
+      <div>Errors: ${this._issuesController.errors}</div>
       ${issuesList}
       <div class="totalTime">
         <div>Всего потрачено: ${this._getTotalSpentTime()}</div>
