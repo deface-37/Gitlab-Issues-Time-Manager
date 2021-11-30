@@ -1,10 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+import { getSettings } from './localStorage/settings';
+
 import './components/milestone/milestone-list';
 import './components/settings/settings-modal';
 import { getNewClient } from './api/apollo-client';
-import api from './api/api.json';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -19,8 +20,10 @@ export class AppLit extends LitElement {
     }
   `;
 
+  private _settings = getSettings();
+
   @property({ attribute: false })
-  client = getNewClient(api.url, '');
+  client = getNewClient(this._settings.url, this._settings.personalToken);
 
   render() {
     return html`

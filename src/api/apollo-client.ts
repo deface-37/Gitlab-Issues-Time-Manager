@@ -5,14 +5,19 @@ import { hasAllVariables } from '@apollo-elements/core/lib/has-all-variables';
 const graphqlAppend = '/api/graphql';
 
 export function getNewClient(baseUrl: string, token: string) {
-  const url = new URL(graphqlAppend, baseUrl);
-
+  let url: string;
+  try {
+    url = new URL(graphqlAppend, baseUrl).toString();
+  } catch (e) {
+    console.error(e.message);
+    return null;
+  }
   const link = ApolloLink.from([
     new ApolloLink((operation, forwards) => {
       return hasAllVariables(operation) ? forwards(operation) : null;
     }),
     new HttpLink({
-      uri: url.toString(),
+      uri: url,
       headers: {
         'PRIVATE-TOKEN': token,
       },

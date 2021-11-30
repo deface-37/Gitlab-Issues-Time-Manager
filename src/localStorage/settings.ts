@@ -1,4 +1,4 @@
-type Settings = {
+export type Settings = {
   url: string;
   personalToken: string;
 };
@@ -8,7 +8,12 @@ export function saveSettings(settings: Settings): void {
 }
 
 export function getSettings(): Settings {
-  const res = localStorage.getItem('settings');
+  const json = localStorage.getItem('settings');
 
-  return JSON.parse(res);
+  const defValue = {
+    url: '',
+    personalToken: '',
+  };
+
+  return json ? { ...defValue, ...JSON.parse(json) } : defValue;
 }

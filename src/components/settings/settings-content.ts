@@ -5,6 +5,8 @@ import { customElement, query } from 'lit/decorators.js';
 import '@spectrum-web-components/textfield/sp-textfield.js';
 import '@spectrum-web-components/field-label/sp-field-label.js';
 
+import { getSettings } from '../../localStorage/settings';
+
 @customElement('settings-content')
 export class SettingsContent extends LitElement {
   static styles = [
@@ -22,9 +24,10 @@ export class SettingsContent extends LitElement {
   get settings() {
     return {
       url: this.urlInput.value,
-      token: this.tokenInput.value,
+      personalToken: this.tokenInput.value,
     };
   }
+  private initSettings = getSettings();
 
   @query('#url', true)
   private urlInput: Textfield;
@@ -34,11 +37,16 @@ export class SettingsContent extends LitElement {
 
   render() {
     return html`
-      <sp-field-label for="URL" size="XL">URL</sp-field-label>
-      <sp-textfield class="config" id="url" placeholder="Enter url"></sp-textfield>
+      <sp-field-label for="url" size="XL">URL</sp-field-label>
+      <sp-textfield id="url" value=${this.initSettings.url} placeholder="Enter url"></sp-textfield>
 
       <sp-field-label for="token" size="XL">Token</sp-field-label>
-      <sp-textfield class="config" id="token" placeholder="Enter token"></sp-textfield>
+      <sp-textfield
+        id="token"
+        type="password"
+        value=${this.initSettings.personalToken}
+        placeholder="Enter token"
+      ></sp-textfield>
     `;
   }
 }

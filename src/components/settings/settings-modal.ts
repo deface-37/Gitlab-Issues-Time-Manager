@@ -11,7 +11,7 @@ import { DialogWrapper } from '@spectrum-web-components/dialog';
 import './settings-content';
 import { SettingsContent } from './settings-content';
 import { AppLit } from '../../App';
-
+import { saveSettings } from '../../localStorage/settings';
 import { getNewClient } from '../../api/apollo-client';
 
 @customElement('settings-modal')
@@ -58,6 +58,7 @@ export class SettingsModal extends LitElement {
     const settings = settingsNode.settings;
     const app = document.getElementById('app') as AppLit;
 
-    app.client = getNewClient(settings.url, settings.token);
+    app.client = getNewClient(settings.url, settings.personalToken);
+    saveSettings(settings);
   }
 }
