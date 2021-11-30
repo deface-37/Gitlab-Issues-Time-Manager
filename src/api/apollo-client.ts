@@ -1,27 +1,26 @@
 import '@apollo-elements/components/apollo-client';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  HttpLink,
-} from '@apollo/client/core';
+import { ApolloClient, InMemoryCache, ApolloLink, HttpLink } from '@apollo/client/core';
 import { hasAllVariables } from '@apollo-elements/core/lib/has-all-variables';
 
-import api from './api.json';
+const graphqlAppend = '/api/graphql';
 
-const link = ApolloLink.from([
-  new ApolloLink((operation, forwards) => {
-    return hasAllVariables(operation) && forwards(operation);
-  }),
-  new HttpLink({
-    uri: api.url,
-    headers: {
-      'PRIVATE-TOKEN': api.token,
-    },
-  }),
-]);
+export function getNewClient(baseUrl: string, token: string) {
+  const url = new URL(graphqlAppend, baseUrl);
 
-export const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache(),
-});
+  const link = ApolloLink.from([
+    new ApolloLink((operation, forwards) => {
+      return hasAllVariables(operation) ? forwards(operation) : null;
+    }),
+    new HttpLink({
+      uri: url.toString(),
+      headers: {
+        'PRIVATE-TOKEN': token,
+      },
+    }),
+  ]);
+
+  return new ApolloClient({
+    link,
+    cache: new InMemoryCache(),
+  });
+}
