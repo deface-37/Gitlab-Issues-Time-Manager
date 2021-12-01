@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
+import '@spectrum-web-components/link/sp-link.js';
+
 @customElement('issue-lit')
 export default class IssueLit extends LitElement {
   @property()
@@ -10,10 +12,18 @@ export default class IssueLit extends LitElement {
   spent!: number;
   @property({ type: Number })
   estimated!: number;
+  @property()
+  id: string;
+  @property()
+  iid: string;
+  @property()
+  url: string;
+  @property()
+  closedAt: string;
 
   static styles = css`
     :host {
-      border: 3px solid black;
+      border: 2px solid black;
       display: block;
       padding: 5px;
       border-radius: 15px;
@@ -27,7 +37,11 @@ export default class IssueLit extends LitElement {
 
   render() {
     return html`
-      <h3>${this.title}</h3>
+      <h3>
+        <sp-link href=${this.url} variant="secondary" quiet>
+          #${this.iid} ${this.title} ${this.closedAt ? '(closed)' : ''}</sp-link
+        >
+      </h3>
       <div>Потрачено: ${formatIssueTime(this.spent)}</div>
       <div>Оценено: ${formatIssueTime(this.estimated)}</div>
     `;

@@ -26,6 +26,10 @@ class IssuesList extends LitElement {
         title=${issue.title}
         spent=${issue.totalTimeSpent}
         estimated=${issue.timeEstimate}
+        id=${issue.id}
+        iid=${issue.iid}
+        url=${issue.webUrl}
+        closedAt=${issue.closedAt}
       ></issue-lit> `;
     });
   }

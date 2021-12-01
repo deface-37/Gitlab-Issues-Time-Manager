@@ -9,7 +9,6 @@ import { getNewClient } from './api/apollo-client';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
-
 import '@apollo-elements/components/apollo-client';
 
 @customElement('app-lit')
@@ -17,6 +16,11 @@ export class AppLit extends LitElement {
   static styles = css`
     :host {
       display: block;
+    }
+
+    sp-theme {
+      background-color: var(--spectrum-global-color-gray-100);
+      color: var(--spectrum-global-color-gray-900);
     }
   `;
 
