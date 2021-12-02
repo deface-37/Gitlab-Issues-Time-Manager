@@ -16,6 +16,12 @@ export class AppLit extends LitElement {
   static styles = css`
     :host {
       display: block;
+      height: 100vh;
+    }
+
+    apollo-client,
+    sp-theme {
+      height: 100%;
     }
 
     sp-theme {

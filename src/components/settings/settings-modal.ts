@@ -25,6 +25,7 @@ export class SettingsModal extends LitElement {
       position: fixed;
       left: 10px;
       top: 10px;
+      z-index: 1;
     }
   `;
 
