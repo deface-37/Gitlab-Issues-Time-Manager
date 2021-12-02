@@ -18,8 +18,8 @@ export default class IssueLit extends LitElement {
   iid: string;
   @property()
   url: string;
-  @property()
-  closedAt: string;
+  @property({ type: Boolean })
+  closed: boolean;
 
   static styles = css`
     :host {
@@ -27,6 +27,10 @@ export default class IssueLit extends LitElement {
       display: block;
       padding: 5px;
       border-radius: 15px;
+    }
+
+    :host([closed]) {
+      background-color: var(--spectrum-global-color-gray-300);
     }
 
     h3 {
@@ -39,7 +43,7 @@ export default class IssueLit extends LitElement {
     return html`
       <h3>
         <sp-link href=${this.url} variant="secondary" quiet>
-          #${this.iid} ${this.title} ${this.closedAt ? '(closed)' : ''}</sp-link
+          #${this.iid} ${this.title} ${this.closed ? '(closed)' : ''}</sp-link
         >
       </h3>
       <div>Потрачено: ${formatIssueTime(this.spent)}</div>

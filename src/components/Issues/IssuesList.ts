@@ -29,7 +29,7 @@ class IssuesList extends LitElement {
         id=${issue.id}
         iid=${issue.iid}
         url=${issue.webUrl}
-        closedAt=${issue.closedAt}
+        ?closed=${issue.closedAt}
       ></issue-lit> `;
     });
   }
