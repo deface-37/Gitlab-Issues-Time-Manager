@@ -1,9 +1,14 @@
 {
   "name": "gitlab-issues-time-manager",
+  "productName": "gitlab-issues-time-manager",
   "version": "0.0.1",
   "description": "Приложение позволяет управлять задачами в gitlab",
-  "main": "index.js",
+  "main": ".webpack/main",
   "scripts": {
+    "forge:start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
     "start:watch-webpack": "webpack --watch",
     "start:serve": "webpack serve",
     "start:codegen": "graphql-codegen --watch",
@@ -11,7 +16,7 @@
     "build:webpack": "webpack",
     "build:prettier": "prettier --write src/",
     "build:codegen": "graphql-codegen",
-    "eslint": "eslint src",
+    "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,12 +24,77 @@
     "url": "git+https://github.com/deface-37/Gitlab-Issues-Time-Manager.git"
   },
   "keywords": [],
-  "author": "Ilya",
+  "author": "deface",
   "bugs": {
     "url": "https://github.com/deface-37/Gitlab-Issues-Time-Manager/issues"
   },
   "homepage": "https://github.com/deface-37/Gitlab-Issues-Time-Manager#readme",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "gitlab-time-manager"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "devContentSecurityPolicy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' data:",
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/App.ts",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "me",
+              "name": "awesome-thing"
+            },
+            "prerelease": true
+          }
+        }
+      ]
+    }
+  },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "@graphql-codegen/cli": "^1.9.0",
     "@graphql-codegen/near-operation-file-preset": "^2.2.2",
     "@graphql-codegen/typed-document-node": "^2.2.1",
@@ -32,16 +102,20 @@
     "@graphql-codegen/typescript-operations": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.0",
     "css-loader": "^6.5.1",
+    "electron": "16.0.4",
     "eslint": "^8.3.0",
+    "fork-ts-checker-webpack-plugin": "^6.5.0",
     "html-webpack-plugin": "^5.5.0",
+    "node-loader": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "2.4.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.2",
     "webpack": "^5.61.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
@@ -60,6 +134,8 @@
     "@spectrum-web-components/textfield": "^0.10.0",
     "@spectrum-web-components/theme": "^0.9.0",
     "@spectrum-web-components/underlay": "^0.8.0",
-    "lit": "^2.0.2"
+    "electron-squirrel-startup": "^1.0.0",
+    "lit": "^2.0.2",
+    "update-electron-app": "^2.0.1"
   }
 }

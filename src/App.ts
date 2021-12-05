@@ -1,7 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+import './style.scss';
 import { getSettings } from './localStorage/settings';
+
 
 import './components/milestone/milestone-list';
 import './components/settings/settings-modal';

@@ -89,3 +89,12 @@ src/schema.ts
 *.query.ts
 *.mutation.ts
 *.fragment.ts
+
+# DynamoDB Local files
+.dynamodb/
+
+# Webpack
+.webpack/
+
+# Electron-Forge
+out/
