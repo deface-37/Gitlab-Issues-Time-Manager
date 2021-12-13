@@ -1,7 +1,7 @@
 {
   "name": "gitlab-issues-time-manager",
   "productName": "gitlab-issues-time-manager",
-  "version": "0.0.1",
+  "version": "0.0.2-0",
   "description": "Приложение позволяет управлять задачами в gitlab",
   "main": ".webpack/main",
   "scripts": {
