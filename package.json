@@ -77,9 +77,10 @@
         {
           "name": "@electron-forge/publisher-github",
           "config": {
+            "authToken": "",
             "repository": {
-              "owner": "me",
-              "name": "awesome-thing"
+              "owner": "deface-37",
+              "name": "Gitlab-Issues-Time-Manager"
             },
             "prerelease": true
           }
