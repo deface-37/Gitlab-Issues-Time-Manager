@@ -28,6 +28,7 @@ export class MilestoneList extends LitElement {
         position: fixed;
         left: 10px;
         top: 50px;
+        z-index: 1;
       }
     `,
   ];
