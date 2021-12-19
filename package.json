@@ -9,8 +9,6 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "start:watch-webpack": "webpack --watch",
-    "start:serve": "webpack serve",
     "start:codegen": "graphql-codegen --watch",
     "build:all": "run-s build:codegen build:webpack",
     "build:webpack": "webpack",
@@ -30,66 +28,7 @@
   },
   "homepage": "https://github.com/deface-37/Gitlab-Issues-Time-Manager#readme",
   "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "gitlab-time-manager"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "devContentSecurityPolicy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' data:",
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/App.ts",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./src/electron/preload.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "authToken": "",
-            "repository": {
-              "owner": "deface-37",
-              "name": "Gitlab-Issues-Time-Manager"
-            },
-            "prerelease": true
-          }
-        }
-      ]
-    }
+    "forge": "./forge.config.js"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.61",
