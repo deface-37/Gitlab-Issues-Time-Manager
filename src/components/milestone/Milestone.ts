@@ -23,12 +23,8 @@ export default class MilestoneLit extends LitElement {
       :host {
         display: flex;
         flex-direction: column;
-        width: 300px;
-        height: 100%;
         border: 1px solid black;
         box-sizing: border-box;
-        margin-top: 5vh;
-        margin-bottom: 5vh;
         padding: 10px;
         border-radius: 5px;
         position: relative;

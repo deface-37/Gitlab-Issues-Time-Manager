@@ -19,9 +19,12 @@ export class MilestoneList extends LitElement {
       :host {
         position: relative;
         display: flex;
-        justify-content: center;
-        gap: 10%;
-        height: 90%;
+        justify-content: start;
+        gap: 50px;
+        height: 100%;
+        overflow-x: scroll;
+        padding: 20px 20px 5px;
+        box-sizing: border-box;
       }
 
       #refresh-button {
@@ -29,6 +32,12 @@ export class MilestoneList extends LitElement {
         left: 10px;
         top: 50px;
         z-index: 1;
+      }
+
+      milestone-lit {
+        flex: 1 0 300px;
+        max-width: 400px;
+        height: 100%;
       }
     `,
   ];
