@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('update-electron-app')();
 
@@ -6,6 +7,7 @@ require('update-electron-app')();
 // plugin that tells the Electron app where to look for the Webpack-bundled app code (depending on
 // whether you're running in development or production).
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -15,7 +17,11 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = (): void => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({ show: false });
+  const mainWindow = new BrowserWindow({
+    webPreferences: {
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
+  });
 
   mainWindow.maximize();
   mainWindow.show();
