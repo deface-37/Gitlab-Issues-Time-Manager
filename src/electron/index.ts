@@ -18,15 +18,16 @@ if (require('electron-squirrel-startup')) {
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    show: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
   mainWindow.maximize();
-  mainWindow.show();
-  // mainWindow.once('ready-to-show', () => {
-  // });
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 };
