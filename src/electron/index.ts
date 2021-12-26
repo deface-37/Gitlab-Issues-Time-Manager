@@ -24,6 +24,9 @@ const createWindow = (): void => {
     },
   });
 
+  // mainWindow.webContents.openDevTools({
+  //   mode: 'undocked',
+  // });
   mainWindow.maximize();
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();

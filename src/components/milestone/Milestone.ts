@@ -11,6 +11,7 @@ import '@spectrum-web-components/divider/sp-divider.js';
 import '@spectrum-web-components/progress-circle/sp-progress-circle.js';
 
 import { absoluteCentred } from '../../styles/common.css';
+import { getUser } from '../../api/getCurrentUser.query';
 
 import '../Issues/IssuesList';
 import '../common/Loader';
@@ -55,8 +56,21 @@ export default class MilestoneLit extends LitElement {
   @property({ attribute: 'group-name' })
   groupName = '';
 
-  private _issuesController = new ApolloQueryController(this, GetIssues, {
-    variables: { milestone: this.title, groupName: this.groupName },
+  _userController = new ApolloQueryController(this, getUser, {
+    onData: (data) => {
+      this._issuesController.variables = {
+        ...this._issuesController.variables,
+        currentUser: data.currentUser.username,
+      };
+    },
+  });
+
+  _issuesController = new ApolloQueryController(this, GetIssues, {
+    variables: {
+      milestone: this.title,
+      groupName: this.groupName,
+      currentUser: this._userController.data?.currentUser.username,
+    },
   });
 
   private _getTotalSpentTime(): string {
@@ -86,9 +100,10 @@ export default class MilestoneLit extends LitElement {
   }
 
   render() {
-    const issuesList = this._issuesController.loading
-      ? html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`
-      : html`<issues-list .issues=${this._issuesList}></issues-list>`;
+    const issuesList =
+      this._issuesController.networkStatus < 7
+        ? html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`
+        : html`<issues-list .issues=${this._issuesList}></issues-list>`;
 
     const error = this._issuesController.error
       ? html`<div>Error: ${this._issuesController.error}</div>`
@@ -105,7 +120,7 @@ export default class MilestoneLit extends LitElement {
         <sp-action-button
           id="refresh-button"
           @click=${this._clickHandler}
-          ?disabled=${this._issuesController.loading}
+          ?disabled=${this._issuesController.networkStatus < 7}
         >
           <sp-icon-refresh slot="icon"></sp-icon-refresh>
         </sp-action-button>

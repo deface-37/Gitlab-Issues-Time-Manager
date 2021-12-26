@@ -10,9 +10,6 @@
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "resolveJsonModule": true,
   },
   "include": [

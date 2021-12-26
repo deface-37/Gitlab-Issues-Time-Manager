@@ -1,0 +1,5 @@
+fragment UserFields on UserCore {
+  name
+  username
+  id
+}
