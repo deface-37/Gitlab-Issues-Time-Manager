@@ -1,5 +1,5 @@
-query GetMilestones {
-  group(fullPath: "CAD") {
+query GetMilestones($groupName: ID!) {
+  group(fullPath: $groupName) {
     milestones(state: active) {
       nodes {
         ...MilestoneFields

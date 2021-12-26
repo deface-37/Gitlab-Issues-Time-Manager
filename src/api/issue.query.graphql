@@ -1,5 +1,5 @@
-query GetIssues($milestone: [String]!) {
-  group(fullPath: "CAD") {
+query GetIssues($milestone: [String]!, $groupName: ID!) {
+  group(fullPath: $groupName) {
     issues(milestoneTitle: $milestone, assigneeUsernames: "malishevis") {
       nodes {
         ...IssueFields

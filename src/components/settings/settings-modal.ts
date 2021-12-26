@@ -60,6 +60,8 @@ export class SettingsModal extends LitElement {
     const app = document.getElementById('app') as AppLit;
 
     app.client = getNewClient(settings.url, settings.personalToken);
+    app.groupName = settings.groupName;
+
     saveSettings(settings);
   }
 }

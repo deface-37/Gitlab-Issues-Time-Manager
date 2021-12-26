@@ -1,6 +1,7 @@
 export type Settings = {
   url: string;
   personalToken: string;
+  groupName: string;
 };
 
 export function saveSettings(settings: Settings): void {
@@ -13,6 +14,7 @@ export function getSettings(): Settings {
   const defValue = {
     url: '',
     personalToken: '',
+    groupName: '',
   };
 
   return json ? { ...defValue, ...JSON.parse(json) } : defValue;

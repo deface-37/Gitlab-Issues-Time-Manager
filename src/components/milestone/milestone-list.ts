@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
@@ -42,7 +42,12 @@ export class MilestoneList extends LitElement {
     `,
   ];
 
-  private _milestonesController = new ApolloQueryController(this, GetMilestones);
+  @property({ attribute: 'group-name' })
+  groupName = '';
+
+  private _milestonesController = new ApolloQueryController(this, GetMilestones, {
+    variables: { groupName: this.groupName },
+  });
 
   private get milestones() {
     return this._milestonesController?.data?.group?.milestones?.nodes || [];
@@ -58,10 +63,19 @@ export class MilestoneList extends LitElement {
         <sp-icon-refresh slot="icon"></sp-icon-refresh>
       </sp-action-button>
       ${this.milestones.map((milestone) => {
-        return html`<milestone-lit title=${milestone.title}></milestone-lit>`;
+        return html`<milestone-lit
+          title=${milestone.title}
+          group-name=${this.groupName}
+        ></milestone-lit>`;
       })}
       ${loader}
     `;
+  }
+
+  willUpdate(_changedProperties: Map<string | number | symbol, unknown>): void {
+    if (_changedProperties.has('groupName')) {
+      this._milestonesController.variables = { groupName: this.groupName };
+    }
   }
 
   refreshClickHandler() {

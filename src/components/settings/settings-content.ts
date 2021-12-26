@@ -25,6 +25,7 @@ export class SettingsContent extends LitElement {
     return {
       url: this.urlInput.value,
       personalToken: this.tokenInput.value,
+      groupName: this.groupInput.value,
     };
   }
   private initSettings = getSettings();
@@ -35,18 +36,24 @@ export class SettingsContent extends LitElement {
   @query('#token', true)
   private tokenInput: Textfield;
 
+  @query('#group', true)
+  private groupInput: Textfield;
+
   render() {
     return html`
       <sp-field-label for="url" size="XL">URL</sp-field-label>
       <sp-textfield id="url" value=${this.initSettings.url} placeholder="Enter url"></sp-textfield>
 
-      <sp-field-label for="token" size="XL">Token</sp-field-label>
+      <sp-field-label for="token" size="XL">Токен</sp-field-label>
       <sp-textfield
         id="token"
         type="password"
         value=${this.initSettings.personalToken}
         placeholder="Enter token"
       ></sp-textfield>
+
+      <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
+      <sp-textfield id="group" value=${this.initSettings.groupName}></sp-textfield>
     `;
   }
 }

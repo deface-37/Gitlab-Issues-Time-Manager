@@ -52,8 +52,11 @@ export default class MilestoneLit extends LitElement {
   @property()
   title: string;
 
+  @property({ attribute: 'group-name' })
+  groupName = '';
+
   private _issuesController = new ApolloQueryController(this, GetIssues, {
-    variables: { milestone: this.title },
+    variables: { milestone: this.title, groupName: this.groupName },
   });
 
   private _getTotalSpentTime(): string {
@@ -73,8 +76,8 @@ export default class MilestoneLit extends LitElement {
   }
 
   willUpdate(props: Map<string, unknown>) {
-    if (props.has('title')) {
-      this._issuesController.variables = { milestone: this.title };
+    if (props.has('title') || props.has('groupName')) {
+      this._issuesController.variables = { milestone: this.title, groupName: this.groupName };
     }
   }
 
@@ -116,7 +119,7 @@ export default class MilestoneLit extends LitElement {
   }
 
   private _clickHandler() {
-    this._issuesController.refetch({ milestone: this.title });
+    this._issuesController.refetch();
     this.requestUpdate();
   }
 }

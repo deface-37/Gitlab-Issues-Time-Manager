@@ -50,7 +50,6 @@ module.exports = {
           owner: 'deface-37',
           name: 'Gitlab-Issues-Time-Manager',
         },
-        prerelease: true,
       },
     },
   ],
