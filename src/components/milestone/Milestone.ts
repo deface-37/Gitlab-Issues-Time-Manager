@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
 import { ApolloQueryController } from '@apollo-elements/core';
-import { GetIssues } from '../../api/issue.query';
+import { GetIssues } from '../Issues/issue.query';
 
 import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
