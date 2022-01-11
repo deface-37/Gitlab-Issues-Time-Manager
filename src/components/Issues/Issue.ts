@@ -42,7 +42,7 @@ export default class IssueLit extends LitElement {
   render() {
     return html`
       <h3>
-        <sp-link href=${this.url} variant="secondary" quiet>
+        <sp-link target="_blank" href=${this.url} variant="secondary" quiet>
           #${this.iid} ${this.title} ${this.closed ? '(closed)' : ''}</sp-link
         >
       </h3>

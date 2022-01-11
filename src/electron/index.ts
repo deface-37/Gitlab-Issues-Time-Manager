@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('update-electron-app')();
@@ -19,14 +19,14 @@ const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     show: false,
-    webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    },
   });
 
-  // mainWindow.webContents.openDevTools({
-  //   mode: 'undocked',
-  // });
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+
+    return { action: 'deny' };
+  });
+
   mainWindow.maximize();
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
