@@ -1,18 +1,16 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
 import './style.scss';
-import { getSettings } from './localStorage/settings';
+import { settingsVar } from './vars/settings-var';
 
 import './components/milestone/milestone-list';
 import './components/settings/settings-modal';
 import { getNewClient } from './api/apollo-client';
-import { getUser } from './api/getCurrentUser.query';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import '@apollo-elements/components/apollo-client';
-import { ApolloQueryController } from '@apollo-elements/core';
 
 @customElement('app-lit')
 export class AppLit extends LitElement {
@@ -33,22 +31,29 @@ export class AppLit extends LitElement {
     }
   `;
 
-  private _settings = getSettings();
+  @state()
+  private _client = getNewClient(settingsVar().url);
 
-  @property({ attribute: false })
-  client = getNewClient(this._settings.url, this._settings.personalToken);
-
-  @property({ attribute: false })
-  groupName = this._settings.groupName;
+  @state()
+  private _groupName = settingsVar().groupName;
 
   render() {
     return html`
-      <apollo-client .client=${this.client}>
+      <apollo-client .client=${this._client}>
         <sp-theme color="light" scale="medium">
           <settings-modal></settings-modal>
-          <milestone-list group-name=${this.groupName}></milestone-list>
+          <milestone-list group-name=${this._groupName}></milestone-list>
         </sp-theme>
       </apollo-client>
     `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    document.addEventListener('changed-url', () => {
+      const settings = settingsVar();
+      this._client = getNewClient(settings.url);
+    });
   }
 }

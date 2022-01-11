@@ -1,11 +1,9 @@
-import { Textfield } from '@spectrum-web-components/textfield';
-import { LitElement, html, css } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
-
-import '@spectrum-web-components/textfield/sp-textfield.js';
 import '@spectrum-web-components/field-label/sp-field-label.js';
-
-import { getSettings } from '../../localStorage/settings';
+import '@spectrum-web-components/textfield/sp-textfield.js';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { getSettings, saveSettings, Settings } from '../../localStorage/settings';
+import { settingsVar } from '../../vars/settings-var';
 
 @customElement('settings-content')
 export class SettingsContent extends LitElement {
@@ -21,39 +19,49 @@ export class SettingsContent extends LitElement {
     `,
   ];
 
-  get settings() {
-    return {
-      url: this.urlInput.value,
-      personalToken: this.tokenInput.value,
-      groupName: this.groupInput.value,
-    };
-  }
-  private initSettings = getSettings();
-
-  @query('#url', true)
-  private urlInput: Textfield;
-
-  @query('#token', true)
-  private tokenInput: Textfield;
-
-  @query('#group', true)
-  private groupInput: Textfield;
+  settings = getSettings();
 
   render() {
     return html`
       <sp-field-label for="url" size="XL">URL</sp-field-label>
-      <sp-textfield id="url" value=${this.initSettings.url} placeholder="Enter url"></sp-textfield>
+      <sp-textfield
+        id="url"
+        value=${this.settings.url}
+        placeholder="Введите URL"
+        @change=${this.changeUrlHandler}
+      ></sp-textfield>
 
-      <sp-field-label for="token" size="XL">Токен</sp-field-label>
+      <sp-field-label for="token" size="XL">Токен аутентификации</sp-field-label>
       <sp-textfield
         id="token"
         type="password"
-        value=${this.initSettings.personalToken}
-        placeholder="Enter token"
+        value=${this.settings.personalToken}
+        placeholder="Введите токен аутентификации"
+        @change=${this.createChangeInputHandler('personalToken')}
       ></sp-textfield>
 
       <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
-      <sp-textfield id="group" value=${this.initSettings.groupName}></sp-textfield>
+      <sp-textfield
+        id="group"
+        value=${this.settings.groupName}
+        @change=${this.createChangeInputHandler('groupName')}
+      ></sp-textfield>
     `;
+  }
+
+  changeUrlHandler(event: Event) {
+    this.createChangeInputHandler('url')(event);
+
+    document.dispatchEvent(new CustomEvent('changed-url'));
+  }
+
+  createChangeInputHandler(settingName: keyof Settings) {
+    return (ev: Event) => {
+      const value = (ev.currentTarget as HTMLInputElement).value;
+      this.settings[settingName] = value;
+
+      settingsVar(this.settings);
+      saveSettings(this.settings);
+    };
   }
 }

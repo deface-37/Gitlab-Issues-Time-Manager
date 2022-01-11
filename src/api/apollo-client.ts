@@ -2,6 +2,8 @@ import '@apollo-elements/components/apollo-client';
 import { ApolloClient, InMemoryCache, ApolloLink, HttpLink } from '@apollo/client/core';
 import { Operation } from '@apollo/client/core';
 
+import { settingsVar } from '../vars/settings-var';
+
 function hasAllVariables(operation: Operation): boolean {
   return !Object.values(operation.variables).some((variable) => !variable);
 }
@@ -12,7 +14,18 @@ const checkVarsLink = new ApolloLink((operation, forwards) => {
   return hasAllVariables(operation) ? forwards(operation) : null;
 });
 
-export function getNewClient(baseUrl: string, token: string) {
+const authLink = new ApolloLink((operation, forwards) => {
+  const settings = settingsVar();
+  operation.setContext((prevContext: any) => ({
+    headers: {
+      'PRIVATE-TOKEN': settings.personalToken,
+      ...prevContext.headers,
+    },
+  }));
+  return forwards(operation);
+});
+
+export function getNewClient(baseUrl: string) {
   let url: string;
   try {
     url = new URL(graphqlURLAppend, baseUrl).toString();
@@ -20,13 +33,12 @@ export function getNewClient(baseUrl: string, token: string) {
     console.error(e.message);
     return null;
   }
+
   const link = ApolloLink.from([
     checkVarsLink,
+    authLink,
     new HttpLink({
       uri: url,
-      headers: {
-        'PRIVATE-TOKEN': token,
-      },
     }),
   ]);
 

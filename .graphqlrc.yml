@@ -1,6 +1,11 @@
-schema: 'https://gitlab.com/api/graphql'
+schema:
+  - 'https://gitlab.com/api/graphql'
+  - 'src/localSchema.graphql'
 documents: 'src/**/*.graphql'
 extensions:
+  customDirectives:
+    - directive @client on FIELD
+    - directive @export on FIELD
   codegen:
     config: # season to taste
       constEnums: true # use `const enum` to define unions
@@ -12,7 +17,6 @@ extensions:
       operationResultSuffix: Data # add `Data` suffix to result types
       optionalResolveType: true # make `__resolveType` field optional
       useIndexSignature: true # required for compatibility with apollo server
-
     generates:
       src/schema.ts:
         plugins:
