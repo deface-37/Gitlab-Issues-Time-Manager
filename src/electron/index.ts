@@ -1,4 +1,5 @@
 import { app, BrowserWindow, shell } from 'electron';
+import installExtension, { APOLLO_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('update-electron-app')();
@@ -20,6 +21,8 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     show: false,
   });
+
+  installExtension(APOLLO_DEVELOPER_TOOLS);
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);

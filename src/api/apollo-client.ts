@@ -1,8 +1,25 @@
 import '@apollo-elements/components/apollo-client';
-import { ApolloClient, InMemoryCache, ApolloLink, HttpLink } from '@apollo/client/core';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+  HttpLink,
+  TypePolicies,
+} from '@apollo/client/core';
 import { Operation } from '@apollo/client/core';
 
 import { settingsVar } from '../vars/settings-var';
+
+const typePolicies: TypePolicies = {
+  Query: {
+    fields: {
+      myGroupName() {
+        const settings = settingsVar();
+        return settings.groupName;
+      },
+    },
+  },
+};
 
 function hasAllVariables(operation: Operation): boolean {
   return !Object.values(operation.variables).some((variable) => !variable);
@@ -44,6 +61,6 @@ export function getNewClient(baseUrl: string) {
 
   return new ApolloClient({
     link,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ typePolicies }),
   });
 }

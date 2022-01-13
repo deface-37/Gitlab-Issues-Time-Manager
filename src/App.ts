@@ -34,15 +34,12 @@ export class AppLit extends LitElement {
   @state()
   private _client = getNewClient(settingsVar().url);
 
-  @state()
-  private _groupName = settingsVar().groupName;
-
   render() {
     return html`
       <apollo-client .client=${this._client}>
         <sp-theme color="light" scale="medium">
           <settings-modal></settings-modal>
-          <milestone-list group-name=${this._groupName}></milestone-list>
+          <milestone-list></milestone-list>
         </sp-theme>
       </apollo-client>
     `;

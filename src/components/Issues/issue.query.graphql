@@ -1,4 +1,5 @@
 query GetIssues($milestone: [String]!, $groupName: ID!, $currentUser: [String!]) {
+  myGroupName @client @export(as: "groupName")
   group(fullPath: $groupName) {
     issues(milestoneTitle: $milestone, assigneeUsernames: $currentUser) {
       nodes {

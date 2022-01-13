@@ -53,9 +53,6 @@ export default class MilestoneLit extends LitElement {
   @property()
   title: string;
 
-  @property({ attribute: 'group-name' })
-  groupName = '';
-
   _userController = new ApolloQueryController(this, getUser, {
     onData: (data) => {
       this._issuesController.variables = {
@@ -68,7 +65,7 @@ export default class MilestoneLit extends LitElement {
   _issuesController = new ApolloQueryController(this, GetIssues, {
     variables: {
       milestone: this.title,
-      groupName: this.groupName,
+      groupName: null,
       currentUser: this._userController.data?.currentUser.username,
     },
   });
@@ -90,8 +87,11 @@ export default class MilestoneLit extends LitElement {
   }
 
   willUpdate(props: Map<string, unknown>) {
-    if (props.has('title') || props.has('groupName')) {
-      this._issuesController.variables = { milestone: this.title, groupName: this.groupName };
+    if (props.has('title')) {
+      this._issuesController.variables = {
+        ...this._issuesController.variables,
+        milestone: this.title,
+      };
     }
   }
 
