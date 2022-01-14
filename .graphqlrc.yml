@@ -3,9 +3,6 @@ schema:
   - 'src/localSchema.graphql'
 documents: 'src/**/*.graphql'
 extensions:
-  customDirectives:
-    # - directive @client on FIELD
-    # - directive @export on FIELD
   codegen:
     config: # season to taste
       constEnums: true # use `const enum` to define unions

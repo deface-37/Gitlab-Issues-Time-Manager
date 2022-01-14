@@ -1,5 +1,6 @@
 import { app, BrowserWindow, shell } from 'electron';
 import installExtension, { APOLLO_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import isDev from 'electron-is-dev';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('update-electron-app')();
@@ -8,7 +9,6 @@ require('update-electron-app')();
 // plugin that tells the Electron app where to look for the Webpack-bundled app code (depending on
 // whether you're running in development or production).
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -22,7 +22,13 @@ const createWindow = (): void => {
     show: false,
   });
 
-  installExtension(APOLLO_DEVELOPER_TOOLS);
+  installExtension(APOLLO_DEVELOPER_TOOLS).then(() => {
+    if (isDev) {
+      mainWindow.webContents.openDevTools({
+        mode: 'undocked',
+      });
+    }
+  });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);

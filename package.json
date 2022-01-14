@@ -5,7 +5,7 @@
   "description": "Приложение позволяет управлять задачами в gitlab",
   "main": ".webpack/main",
   "scripts": {
-    "forge:start": "electron-forge start",
+    "forge:start": "electron-forge start -- --remote-debugging-port=9222",
     "forge:package": "electron-forge package --platform=win32 --arch=x64",
     "forge:make": "electron-forge make --platform=win32 --arch=x64",
     "forge:publish": "electron-forge publish --platform=win32 --arch=x64",
@@ -48,6 +48,7 @@
     "css-loader": "^6.5.1",
     "electron": "16.0.4",
     "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
     "eslint": "^8.3.0",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "html-webpack-plugin": "^5.5.0",

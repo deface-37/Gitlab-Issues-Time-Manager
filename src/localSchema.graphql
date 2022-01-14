@@ -1,3 +1,7 @@
+directive @export(as: String!) on FIELD
+
+directive @client on FIELD
+
 type Query {
   myGroupName: String
 }
