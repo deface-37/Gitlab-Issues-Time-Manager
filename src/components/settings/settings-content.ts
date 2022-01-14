@@ -58,7 +58,7 @@ export class SettingsContent extends LitElement {
   createChangeInputHandler(settingName: keyof Settings) {
     return (ev: Event) => {
       const value = (ev.currentTarget as HTMLInputElement).value;
-      this.settings[settingName] = value;
+      this.settings = { ...this.settings, [settingName]: value };
 
       settingsVar(this.settings);
       saveSettings(this.settings);
