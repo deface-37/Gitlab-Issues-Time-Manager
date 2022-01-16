@@ -54,7 +54,7 @@ export class MilestoneList extends LitElement {
       : '';
 
     return html`
-      <sp-action-button id="refresh-button" @click=${this.refreshClickHandler}>
+      <sp-action-button id="refresh-button" @click=${this.refreshClickHandler} title="Обновить всё">
         <sp-icon-refresh slot="icon"></sp-icon-refresh>
       </sp-action-button>
       ${this.milestones.map((milestone) => {
@@ -65,6 +65,6 @@ export class MilestoneList extends LitElement {
   }
 
   refreshClickHandler() {
-    this._milestonesController.refetch();
+    document.dispatchEvent(new CustomEvent('refetch-all'));
   }
 }

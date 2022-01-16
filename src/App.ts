@@ -48,6 +48,12 @@ export class AppLit extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
+    document.addEventListener('refetch-all', () => {
+      this._client.refetchQueries({
+        include: 'all',
+      });
+    });
+
     document.addEventListener('changed-url', () => {
       const settings = settingsVar();
       this._client = getNewClient(settings.url);

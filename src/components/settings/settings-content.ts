@@ -37,7 +37,7 @@ export class SettingsContent extends LitElement {
         type="password"
         value=${this.settings.personalToken}
         placeholder="Введите токен аутентификации"
-        @change=${this.createChangeInputHandler('personalToken')}
+        @change=${this.changeTokenHandler}
       ></sp-textfield>
 
       <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
@@ -49,10 +49,16 @@ export class SettingsContent extends LitElement {
     `;
   }
 
-  changeUrlHandler(event: Event) {
+  private changeUrlHandler(event: Event) {
     this.createChangeInputHandler('url')(event);
 
     document.dispatchEvent(new CustomEvent('changed-url'));
+  }
+
+  private changeTokenHandler(event: Event) {
+    this.createChangeInputHandler('personalToken')(event);
+
+    document.dispatchEvent(new CustomEvent('refetch-all'));
   }
 
   createChangeInputHandler(settingName: keyof Settings) {
