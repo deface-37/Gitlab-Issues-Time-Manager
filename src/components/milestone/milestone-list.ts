@@ -26,13 +26,6 @@ export class MilestoneList extends LitElement {
         box-sizing: border-box;
       }
 
-      #refresh-button {
-        position: fixed;
-        left: 10px;
-        top: 50px;
-        z-index: 1;
-      }
-
       milestone-lit {
         flex: 1 0 300px;
         max-width: 400px;
