@@ -21,7 +21,6 @@ export class MilestoneList extends LitElement {
         display: flex;
         justify-content: start;
         gap: 50px;
-        height: 100%;
         overflow-x: scroll;
         padding: 20px 20px 5px;
         box-sizing: border-box;
@@ -54,17 +53,10 @@ export class MilestoneList extends LitElement {
       : '';
 
     return html`
-      <sp-action-button id="refresh-button" @click=${this.refreshClickHandler} title="Обновить всё">
-        <sp-icon-refresh slot="icon"></sp-icon-refresh>
-      </sp-action-button>
       ${this.milestones.map((milestone) => {
         return html`<milestone-lit title=${milestone.title}></milestone-lit>`;
       })}
       ${loader}
     `;
-  }
-
-  refreshClickHandler() {
-    document.dispatchEvent(new CustomEvent('refetch-all'));
   }
 }

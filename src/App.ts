@@ -3,10 +3,10 @@ import { customElement, state } from 'lit/decorators.js';
 
 import './style.scss';
 import { settingsVar } from './vars/settings-var';
-
-import './components/milestone/milestone-list';
-import './components/settings/settings-modal';
 import { getNewClient } from './api/apollo-client';
+
+import './components/header/main-header';
+import './components/milestone/milestone-list';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -28,6 +28,16 @@ export class AppLit extends LitElement {
     sp-theme {
       background-color: var(--spectrum-global-color-gray-100);
       color: var(--spectrum-global-color-gray-900);
+      display: flex;
+      flex-direction: column;
+    }
+
+    main-header {
+      flex: 0, 0 auto;
+    }
+
+    milestone-list {
+      flex: 1 1 auto;
     }
   `;
 
@@ -38,7 +48,7 @@ export class AppLit extends LitElement {
     return html`
       <apollo-client .client=${this._client}>
         <sp-theme color="light" scale="medium">
-          <settings-modal></settings-modal>
+          <main-header></main-header>
           <milestone-list></milestone-list>
         </sp-theme>
       </apollo-client>

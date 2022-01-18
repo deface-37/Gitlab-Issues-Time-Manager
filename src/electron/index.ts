@@ -20,15 +20,15 @@ const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     show: false,
+    autoHideMenuBar: true,
   });
 
-  installExtension(APOLLO_DEVELOPER_TOOLS).then(() => {
-    if (isDev) {
-      mainWindow.webContents.openDevTools({
-        mode: 'undocked',
-      });
-    }
-  });
+  installExtension(APOLLO_DEVELOPER_TOOLS);
+  if (isDev) {
+    mainWindow.webContents.openDevTools({
+      mode: 'undocked',
+    });
+  }
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
