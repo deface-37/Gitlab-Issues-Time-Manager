@@ -98,3 +98,10 @@ src/schema.ts
 
 # Electron-Forge
 out/
+
+# github pages
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
