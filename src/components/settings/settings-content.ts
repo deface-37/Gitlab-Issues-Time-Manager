@@ -1,5 +1,8 @@
 import '@spectrum-web-components/field-label/sp-field-label.js';
 import '@spectrum-web-components/textfield/sp-textfield.js';
+import '@spectrum-web-components/button/sp-button.js';
+import '@spectrum-web-components/button/sp-clear-button.js';
+
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { getSettings, saveSettings, Settings } from '../../localStorage/settings';
@@ -39,6 +42,9 @@ export class SettingsContent extends LitElement {
         placeholder="Введите токен аутентификации"
         @change=${this.changeTokenHandler}
       ></sp-textfield>
+
+      <sp-field-label>Аутентификация</sp-field-label>
+      <sp-button>Войти</sp-button>
 
       <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
       <sp-textfield
