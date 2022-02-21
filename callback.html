@@ -5,13 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>You can close this page</title>
+  </head>
+  <body>
+    <h1>Вы авторизованы. Можете закрыть эту страницу</h1>
+
     <script>
       const url = new URL('gitlab-time-manager://auth/');
       url.search = location.search;
       location.assign(url);
     </script>
-  </head>
-  <body>
-    <h1>Вы авторизованы. Можете закрыть эту страницу</h1>
   </body>
 </html>
