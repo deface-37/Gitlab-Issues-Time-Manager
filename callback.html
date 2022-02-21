@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>You can close this page</title>
     <script>
-      alert('You can close this page');
+      const url = new URL('gitlab-time-manager://auth/');
+      url.search = location.search;
+      location.assign(url);
     </script>
   </head>
   <body>
