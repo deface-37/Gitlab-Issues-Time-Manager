@@ -37,7 +37,7 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
     "@electron-forge/publisher-github": "^6.0.0-beta.61",
-    "@graphql-codegen/cli": "^1.9.0",
+    "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/near-operation-file-preset": "^2.2.2",
     "@graphql-codegen/typed-document-node": "^2.2.1",
     "@graphql-codegen/typescript": "^2.4.1",
