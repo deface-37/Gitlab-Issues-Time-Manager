@@ -11,7 +11,7 @@ import '@spectrum-web-components/divider/sp-divider.js';
 import '@spectrum-web-components/progress-circle/sp-progress-circle.js';
 
 import { absoluteCentred } from '../../styles/common.css';
-import { getUser } from '../../apollo/getCurrentUser.query';
+import { getUser } from '../../api/getCurrentUser.query';
 
 import '../Issues/IssuesList';
 import '../common/Loader';
