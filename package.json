@@ -65,7 +65,7 @@
     "@spectrum-web-components/action-button": "^0.7.4",
     "@spectrum-web-components/button": "^0.16.4",
     "@spectrum-web-components/dialog": "^0.9.1",
-    "@spectrum-web-components/divider": "^0.4.3",
+    "@spectrum-web-components/divider": "^0.4.5",
     "@spectrum-web-components/field-label": "^0.7.4",
     "@spectrum-web-components/icons-workflow": "^0.8.3",
     "@spectrum-web-components/link": "^0.11.4",
