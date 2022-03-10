@@ -13,9 +13,8 @@ import { settingsVar, authVar } from './vars';
 const typePolicies: TypePolicies = {
   Query: {
     fields: {
-      myGroupName() {
-        const settings = settingsVar();
-        return settings.groupName;
+      appSettings() {
+        return settingsVar();
       },
       auth: () => authVar(),
     },
@@ -48,7 +47,7 @@ export function getNewClient(baseUrl: string) {
   let url: string;
   try {
     url = new URL(graphqlURLAppend, baseUrl).toString();
-  } catch (e) {
+  } catch (e: any) {
     console.error(e.message);
     return null;
   }
