@@ -5,11 +5,11 @@ import '@spectrum-web-components/button/sp-clear-button.js';
 
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { getSettings, saveSettings, Settings } from '../../localStorage/settings';
+import { saveSettings, Settings } from '../../localStorage/settings';
 import { settingsVar } from '../../apollo/vars';
 import { URL_UPDATED } from '../../eventNames';
-import auth from '../../auth/auth';
-import { GetAuth } from '../../auth/auth.query';
+import auth from '../../auth/authFlow';
+import { GetAuth } from '../../apollo/state/auth.query';
 import { ApolloQueryController } from '@apollo-elements/core';
 
 @customElement('settings-content')
@@ -27,7 +27,7 @@ export class SettingsContent extends LitElement {
   ];
 
   private authController = new ApolloQueryController(this, GetAuth);
-  settings = getSettings();
+  settings = settingsVar();
 
   get isLoggedIn() {
     return this.authController.data?.auth?.isLoggedIn;
