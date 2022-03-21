@@ -3,7 +3,9 @@ import { customElement } from 'lit/decorators.js';
 
 import '@spectrum-web-components/top-nav/sp-top-nav.js';
 import '@spectrum-web-components/top-nav/sp-top-nav-item.js';
-
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
+import '@spectrum-web-components/menu/sp-menu-item.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-user.js';
 import '../settings/settings-button-wrapper';
 
 @customElement('main-header')
@@ -15,7 +17,7 @@ export class MainHeader extends LitElement {
         margin-right: 10px;
       }
 
-      settings-button-wrapper {
+      sp-action-menu {
         margin-left: auto;
       }
 
@@ -32,7 +34,11 @@ export class MainHeader extends LitElement {
         <sp-top-nav size="l">
           <sp-top-nav-item id="plan-tab" href="#">Планирование</sp-top-nav-item>
 
-          <settings-button-wrapper></settings-button-wrapper>
+          <sp-action-menu id="menu" size="m">
+            <sp-icon-user slot="icon"></sp-icon-user>
+            <settings-button-wrapper></settings-button-wrapper>
+            <sp-menu-item>Войти</sp-menu-item>
+          </sp-action-menu>
         </sp-top-nav>
       </sp-theme>
     `;
