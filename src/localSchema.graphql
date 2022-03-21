@@ -1,7 +1,18 @@
 directive @export(as: String!) on FIELD
-
 directive @client on FIELD
 
 type Query {
-  myGroupName: String
+  appSettings: AppSettings
+  auth: AuthInfo
+}
+
+type AuthInfo {
+  accessToken: String
+  refreshToken: String
+  isLoggedIn: Boolean
+}
+
+type AppSettings {
+  url: String
+  groupName: String
 }

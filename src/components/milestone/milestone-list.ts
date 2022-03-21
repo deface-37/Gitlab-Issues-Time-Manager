@@ -41,9 +41,10 @@ export class MilestoneList extends LitElement {
   }
 
   render() {
-    const loader = this._milestonesController.loading
-      ? html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`
-      : '';
+    const loader =
+      this._milestonesController.networkStatus < 7
+        ? html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`
+        : '';
 
     return html`
       ${this.milestones.map((milestone) => {

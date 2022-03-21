@@ -1,6 +1,5 @@
 export type Settings = {
   url: string;
-  personalToken: string;
   groupName: string;
 };
 
@@ -13,7 +12,6 @@ export function getSettings(): Settings {
 
   const defValue = {
     url: '',
-    personalToken: '',
     groupName: '',
   };
 

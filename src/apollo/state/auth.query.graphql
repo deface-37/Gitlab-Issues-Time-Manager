@@ -1,0 +1,7 @@
+query GetAuth {
+  auth @client {
+    accessToken
+    refreshToken
+    isLoggedIn
+  }
+}

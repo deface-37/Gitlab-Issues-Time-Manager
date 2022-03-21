@@ -8,15 +8,15 @@ import {
 } from '@apollo/client/core';
 import { Operation } from '@apollo/client/core';
 
-import { settingsVar } from '../vars/settings-var';
+import { settingsVar, authVar } from './vars';
 
 const typePolicies: TypePolicies = {
   Query: {
     fields: {
-      myGroupName() {
-        const settings = settingsVar();
-        return settings.groupName;
+      appSettings() {
+        return settingsVar();
       },
+      auth: () => authVar(),
     },
   },
 };
@@ -32,13 +32,14 @@ const checkVarsLink = new ApolloLink((operation, forwards) => {
 });
 
 const authLink = new ApolloLink((operation, forwards) => {
-  const settings = settingsVar();
-  operation.setContext((prevContext: any) => ({
+  const auth = authVar();
+  if (!auth.accessToken) return null;
+
+  operation.setContext({
     headers: {
-      'PRIVATE-TOKEN': settings.personalToken,
-      ...prevContext.headers,
+      Authorization: auth.accessToken && 'Bearer ' + auth.accessToken,
     },
-  }));
+  });
   return forwards(operation);
 });
 
@@ -46,7 +47,7 @@ export function getNewClient(baseUrl: string) {
   let url: string;
   try {
     url = new URL(graphqlURLAppend, baseUrl).toString();
-  } catch (e) {
+  } catch (e: any) {
     console.error(e.message);
     return null;
   }

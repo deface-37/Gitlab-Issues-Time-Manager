@@ -4,9 +4,13 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 
 import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { getSettings, saveSettings, Settings } from '../../localStorage/settings';
-import { settingsVar } from '../../vars/settings-var';
+import { customElement, state } from 'lit/decorators.js';
+import { saveSettings, Settings } from '../../localStorage/settings';
+import { settingsVar } from '../../apollo/vars';
+import { URL_UPDATED } from '../../eventNames';
+import auth from '../../auth/authFlow';
+import { GetAuth } from '../../apollo/state/auth.query';
+import { ApolloQueryController } from '@apollo-elements/core';
 
 @customElement('settings-content')
 export class SettingsContent extends LitElement {
@@ -22,9 +26,20 @@ export class SettingsContent extends LitElement {
     `,
   ];
 
-  settings = getSettings();
+  private authController = new ApolloQueryController(this, GetAuth);
+  settings = settingsVar();
+
+  get isLoggedIn() {
+    return this.authController.data?.auth?.isLoggedIn;
+  }
+
+  @state()
+  private loginInProgress = false;
 
   render() {
+    const textLoginButton = this.isLoggedIn ? 'Выйти' : 'Войти';
+    const loginButtonHandler = this.isLoggedIn ? this.logoutButtonHandler : this.loginButtonHandler;
+
     return html`
       <sp-field-label for="url" size="XL">URL</sp-field-label>
       <sp-textfield
@@ -34,17 +49,10 @@ export class SettingsContent extends LitElement {
         @change=${this.changeUrlHandler}
       ></sp-textfield>
 
-      <sp-field-label for="token" size="XL">Токен аутентификации</sp-field-label>
-      <sp-textfield
-        id="token"
-        type="password"
-        value=${this.settings.personalToken}
-        placeholder="Введите токен аутентификации"
-        @change=${this.changeTokenHandler}
-      ></sp-textfield>
-
       <sp-field-label>Аутентификация</sp-field-label>
-      <sp-button>Войти</sp-button>
+      <sp-button @click=${loginButtonHandler} ?disabled=${this.loginInProgress}
+        >${textLoginButton}</sp-button
+      >
 
       <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
       <sp-textfield
@@ -58,16 +66,10 @@ export class SettingsContent extends LitElement {
   private changeUrlHandler(event: Event) {
     this.createChangeInputHandler('url')(event);
 
-    document.dispatchEvent(new CustomEvent('changed-url'));
+    document.dispatchEvent(new CustomEvent(URL_UPDATED));
   }
 
-  private changeTokenHandler(event: Event) {
-    this.createChangeInputHandler('personalToken')(event);
-
-    document.dispatchEvent(new CustomEvent('refetch-all'));
-  }
-
-  createChangeInputHandler(settingName: keyof Settings) {
+  private createChangeInputHandler(settingName: keyof Settings) {
     return (ev: Event) => {
       const value = (ev.currentTarget as HTMLInputElement).value;
       this.settings = { ...this.settings, [settingName]: value };
@@ -75,5 +77,15 @@ export class SettingsContent extends LitElement {
       settingsVar(this.settings);
       saveSettings(this.settings);
     };
+  }
+
+  private loginButtonHandler() {
+    this.loginInProgress = true;
+    auth.makeAuthRequest().finally(() => {
+      this.loginInProgress = false;
+    });
+  }
+  private logoutButtonHandler() {
+    auth.revokeToken();
   }
 }

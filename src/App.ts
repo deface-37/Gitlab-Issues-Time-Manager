@@ -2,8 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import './style.scss';
-import { settingsVar } from './vars/settings-var';
-import { getNewClient } from './api/apollo-client';
+import { settingsVar } from './apollo/vars';
+import { getNewClient } from './apollo/client';
 
 import './components/header/main-header';
 import './components/milestone/milestone-list';
@@ -11,6 +11,7 @@ import './components/milestone/milestone-list';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import '@apollo-elements/components/apollo-client';
+import { REFETCH_ALL, URL_UPDATED } from './eventNames';
 
 @customElement('app-lit')
 export class AppLit extends LitElement {
@@ -58,13 +59,13 @@ export class AppLit extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    document.addEventListener('refetch-all', () => {
+    document.addEventListener(REFETCH_ALL, () => {
       this._client.refetchQueries({
         include: 'all',
       });
     });
 
-    document.addEventListener('changed-url', () => {
+    document.addEventListener(URL_UPDATED, () => {
       const settings = settingsVar();
       this._client = getNewClient(settings.url);
     });

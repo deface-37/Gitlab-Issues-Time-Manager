@@ -1,5 +1,7 @@
 query GetMilestones($groupName: ID!) {
-  myGroupName @client @export(as: "groupName")
+  appSettings @client {
+    groupName @export(as: "groupName")
+  }
   group(fullPath: $groupName) {
     id
     milestones(state: active) {
