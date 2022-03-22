@@ -1,4 +1,4 @@
-query getUser {
+query getCurrentUserQuery {
   currentUser {
     ...UserFields
   }

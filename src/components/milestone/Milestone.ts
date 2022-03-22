@@ -11,7 +11,7 @@ import '@spectrum-web-components/divider/sp-divider.js';
 import '@spectrum-web-components/progress-circle/sp-progress-circle.js';
 
 import { absoluteCentred } from '../../styles/common.css';
-import { getUser } from '../../apollo/getCurrentUser.query';
+import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
 
 import '../Issues/IssuesList';
 import '../common/Loader';
@@ -53,7 +53,7 @@ export default class MilestoneLit extends LitElement {
   @property()
   title: string;
 
-  _userController = new ApolloQueryController(this, getUser, {
+  _userController = new ApolloQueryController(this, getCurrentUserQuery, {
     onData: (data) => {
       this._issuesController.variables = {
         ...this._issuesController.variables,
