@@ -1,3 +1,4 @@
+import './login-button';
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
@@ -6,7 +7,7 @@ import '@spectrum-web-components/top-nav/sp-top-nav-item.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-user.js';
-import '../settings/settings-button-wrapper';
+import './settings-button-wrapper';
 
 @customElement('main-header')
 export class MainHeader extends LitElement {
@@ -37,7 +38,7 @@ export class MainHeader extends LitElement {
           <sp-action-menu id="menu" size="m">
             <sp-icon-user slot="icon"></sp-icon-user>
             <settings-button-wrapper></settings-button-wrapper>
-            <sp-menu-item>Войти</sp-menu-item>
+            <login-button></login-button>
           </sp-action-menu>
         </sp-top-nav>
       </sp-theme>

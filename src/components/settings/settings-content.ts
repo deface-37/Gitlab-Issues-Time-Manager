@@ -4,11 +4,10 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 
 import { css, html, LitElement } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import { saveSettings, Settings } from '../../localStorage/settings';
 import { settingsVar } from '../../apollo/vars';
 import { URL_UPDATED } from '../../eventNames';
-import auth from '../../auth/authFlow';
 import { GetAuth } from '../../apollo/state/auth.query';
 import { ApolloQueryController } from '@apollo-elements/core';
 
@@ -33,13 +32,7 @@ export class SettingsContent extends LitElement {
     return this.authController.data?.auth?.isLoggedIn;
   }
 
-  @state()
-  private loginInProgress = false;
-
   render() {
-    const textLoginButton = this.isLoggedIn ? 'Выйти' : 'Войти';
-    const loginButtonHandler = this.isLoggedIn ? this.logoutButtonHandler : this.loginButtonHandler;
-
     return html`
       <sp-field-label for="url" size="XL">URL</sp-field-label>
       <sp-textfield
@@ -48,11 +41,6 @@ export class SettingsContent extends LitElement {
         placeholder="Введите URL"
         @change=${this.changeUrlHandler}
       ></sp-textfield>
-
-      <sp-field-label>Аутентификация</sp-field-label>
-      <sp-button @click=${loginButtonHandler} ?disabled=${this.loginInProgress}
-        >${textLoginButton}</sp-button
-      >
 
       <sp-field-label for="group" size="XL">Группа проектов</sp-field-label>
       <sp-textfield
@@ -77,15 +65,5 @@ export class SettingsContent extends LitElement {
       settingsVar(this.settings);
       saveSettings(this.settings);
     };
-  }
-
-  private loginButtonHandler() {
-    this.loginInProgress = true;
-    auth.makeAuthRequest().finally(() => {
-      this.loginInProgress = false;
-    });
-  }
-  private logoutButtonHandler() {
-    auth.revokeToken();
   }
 }

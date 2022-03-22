@@ -3,7 +3,7 @@ import '@spectrum-web-components/dialog/sp-dialog-wrapper.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-settings.js';
 import { css, html, LitElement } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
-import './settings-content';
+import '../settings/settings-content';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import { Overlay } from '@spectrum-web-components/overlay';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -16,7 +16,7 @@ export class SettingsModal extends LitElement {
     }
   `;
 
-  @query('sp-dialog-wrapper')
+  @query('sp-dialog-wrapper', true)
   private dialogWrapper: HTMLElement;
   @state()
   private displayDialog = false;
@@ -24,9 +24,8 @@ export class SettingsModal extends LitElement {
   render() {
     const displayStyle = this.displayDialog ? null : 'none';
     return html`
-      <sp-menu-item slot="trigger" @click=${this._clickHandler}>Настройки</sp-menu-item>
+      <sp-menu-item @click=${this._clickHandler}>Настройки</sp-menu-item>
       <sp-dialog-wrapper
-        slot="click-content"
         dismissable
         underlay
         headline="Настройки"
