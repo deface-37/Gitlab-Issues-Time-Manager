@@ -121,7 +121,6 @@ export default class MilestoneLit extends LitElement {
           id="refresh-button"
           @click=${this._clickHandler}
           ?disabled=${this._issuesController.networkStatus < 7}
-          quiet
         >
           <sp-icon-refresh size="s" slot="icon"></sp-icon-refresh>
         </sp-action-button>
