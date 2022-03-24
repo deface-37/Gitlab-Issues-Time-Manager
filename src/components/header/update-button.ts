@@ -29,8 +29,6 @@ export class UpdateButton extends LitElement {
   render() {
     return html`
       <sp-action-button
-        slot="trigger"
-        id="refresh-button"
         quiet
         @click=${this._clickHandler}
         @mouseover=${this._mouseOverHandler}
@@ -38,7 +36,7 @@ export class UpdateButton extends LitElement {
       >
         <sp-icon-data-refresh slot="icon"></sp-icon-data-refresh>
       </sp-action-button>
-      <sp-tooltip slot="hover-content">Обновить данные</sp-tooltip>
+      <sp-tooltip>Обновить данные</sp-tooltip>
     `;
   }
 
