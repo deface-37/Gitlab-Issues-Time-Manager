@@ -1,13 +1,12 @@
+import './update-button';
 import { settingsVar } from './../../apollo/vars';
 import './login-button';
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import '@spectrum-web-components/icons-workflow/icons/sp-icon-data-refresh.js';
 import '@spectrum-web-components/avatar/sp-avatar.js';
 import '@spectrum-web-components/top-nav/sp-top-nav.js';
 import '@spectrum-web-components/top-nav/sp-top-nav-item.js';
-import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-user.js';
 import './settings-button-wrapper';
@@ -18,7 +17,6 @@ import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
 import { ApolloQueryController } from '@apollo-elements/core';
 import { GetAuth } from '../../apollo/state/auth.query';
-import { REFETCH_ALL } from '../../eventNames';
 
 @customElement('main-header')
 export class MainHeader extends LitElement {
@@ -59,10 +57,7 @@ export class MainHeader extends LitElement {
       <sp-theme color="lightest" scale="medium">
         <sp-top-nav size="l">
           <sp-top-nav-item id="plan-tab" href="#">Планирование</sp-top-nav-item>
-
-          <sp-action-button class="right" quiet @click=${this.refreshButtonHandler}>
-            <sp-icon-data-refresh slot="icon"></sp-icon-data-refresh>
-          </sp-action-button>
+          <update-button class="right"></update-button>
           <sp-action-menu id="menu" size="m">
             ${avatar}
             <settings-button-wrapper></settings-button-wrapper>
@@ -71,9 +66,5 @@ export class MainHeader extends LitElement {
         </sp-top-nav>
       </sp-theme>
     `;
-  }
-
-  private refreshButtonHandler() {
-    document.dispatchEvent(new CustomEvent(REFETCH_ALL));
   }
 }
