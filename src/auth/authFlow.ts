@@ -14,7 +14,7 @@ import { REFETCH_ALL, URL_UPDATED } from '../eventNames';
 import { authVar, settingsVar } from '../apollo/vars';
 import { CustomAuthHandler } from './customAuthRequestHandler';
 
-const clientId = '48d3935dab0217fb7eaa593fc21805ead6699ca5a6766600218ddb27522ab38f';
+const clientId = 'de0e40a83454a68ca4ec599798a8b1123dc5a33d0014d728ee872f9e6d8fb90d';
 const redirectUri = 'https://deface-37.github.io/Gitlab-Issues-Time-Manager/callback';
 const scope = 'api';
 

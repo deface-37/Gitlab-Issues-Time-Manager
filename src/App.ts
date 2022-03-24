@@ -42,6 +42,12 @@ export class AppLit extends LitElement {
     }
   `;
 
+  constructor() {
+    super();
+    // Чтобы корректно работал overlay
+    window.toString = () => '[object Window]';
+  }
+
   @state()
   private _client = getNewClient(settingsVar().url);
 
