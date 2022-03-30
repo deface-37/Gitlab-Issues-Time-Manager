@@ -180,12 +180,16 @@ class AuthFlow {
       this.revokeToken();
     }
 
-    this.configuration = new AuthorizationServiceConfiguration({
-      authorization_endpoint: new URL('/oauth/authorize', baseUrl).href,
-      token_endpoint: new URL('/oauth/token', baseUrl).href,
-      revocation_endpoint: new URL('/oauth/revoke', baseUrl).href,
-    });
-    console.log('Обновили конфиг', this.configuration);
+    try {
+      this.configuration = new AuthorizationServiceConfiguration({
+        authorization_endpoint: new URL('/oauth/authorize', baseUrl).href,
+        token_endpoint: new URL('/oauth/token', baseUrl).href,
+        revocation_endpoint: new URL('/oauth/revoke', baseUrl).href,
+      });
+      console.log('Обновили конфиг', this.configuration);
+    } catch (error) {
+      console.error('Ошибка при создании конфига: ', error.message);
+    }
   }
 }
 
