@@ -30,6 +30,7 @@ class AuthFlow {
 
   private tokenResponse: TokenResponse | undefined;
   private refreshToken: string | undefined;
+  private repeatId: number | undefined;
 
   constructor() {
     document.addEventListener(URL_UPDATED, () => {
@@ -49,6 +50,7 @@ class AuthFlow {
       this.requestRefreshToken()
         .then(() => {
           document.dispatchEvent(new CustomEvent(REFETCH_ALL));
+          this.planUpdateToken();
         })
         .catch((error) => {
           console.error('Не удалось обновить токен', error);
@@ -87,7 +89,7 @@ class AuthFlow {
     return this.makeTokenRequest(response.code, codeVerifier);
   }
 
-  revokeToken() {
+  async revokeToken() {
     const token = this.tokenResponse?.accessToken;
     if (!token) {
       console.error('Вы не залогинены');
@@ -101,19 +103,19 @@ class AuthFlow {
       token,
     });
 
-    this.tokenHandler.performRevokeTokenRequest(this.configuration, request).then((success) => {
-      if (success) {
-        this.tokenResponse = undefined;
-        this.refreshToken = undefined;
+    const success = await this.tokenHandler.performRevokeTokenRequest(this.configuration, request);
+    if (success) {
+      this.tokenResponse = undefined;
+      this.refreshToken = undefined;
 
-        localStorage.removeItem('auth');
-        authVar({ isLoggedIn: false });
+      localStorage.removeItem('auth');
+      authVar({ isLoggedIn: false });
+      clearInterval(this.repeatId);
 
-        console.log('Сбросили токен');
-      } else {
-        console.log('Не удалось сбросить токен');
-      }
-    });
+      console.log('Сбросили токен');
+    } else {
+      console.log('Не удалось сбросить токен');
+    }
   }
 
   private async makeTokenRequest(code: string, codeVerifier: string): Promise<TokenResponse> {
@@ -135,7 +137,9 @@ class AuthFlow {
     console.log('Полученный токен ', response);
     this.refreshToken = response.refreshToken;
     this.tokenResponse = response;
+
     this.storeAuth();
+    this.planUpdateToken();
     document.dispatchEvent(new CustomEvent(REFETCH_ALL));
     return response;
   }
@@ -173,6 +177,16 @@ class AuthFlow {
       accessToken: this.tokenResponse?.accessToken,
       refreshToken: this.refreshToken,
     });
+  }
+
+  private planUpdateToken() {
+    if (this.repeatId) {
+      clearInterval(this.repeatId);
+    }
+    this.repeatId = setInterval(
+      this.requestRefreshToken.bind(this) as TimerHandler,
+      1000 * 60 * 90
+    );
   }
 
   private setConfig(baseUrl: string) {
