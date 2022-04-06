@@ -5,7 +5,7 @@ import { ReactiveControllerHost } from 'lit';
 
 export const queryControllerWithClient = <D, V = VariablesOf<D>>(
   host: ReactiveControllerHost,
-  query: ComponentDocument<D>,
+  query: ComponentDocument<D, V>,
   options?: ApolloQueryControllerOptions<D, V>
 ) => {
   const currentOptions = Object.assign({ client }, options);

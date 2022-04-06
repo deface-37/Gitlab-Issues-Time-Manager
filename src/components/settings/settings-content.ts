@@ -9,7 +9,7 @@ import { saveSettings, Settings } from '../../localStorage/settings';
 import { settingsVar } from '../../apollo/vars';
 import { URL_UPDATED } from '../../eventNames';
 import { GetAuth } from '../../apollo/state/auth.query';
-import { ApolloQueryController } from '@apollo-elements/core';
+import { queryControllerWithClient } from '../../apollo/controllerWithClient';
 
 @customElement('settings-content')
 export class SettingsContent extends LitElement {
@@ -25,7 +25,7 @@ export class SettingsContent extends LitElement {
     `,
   ];
 
-  private authController = new ApolloQueryController(this, GetAuth);
+  private authController = queryControllerWithClient(this, GetAuth);
   settings = settingsVar();
 
   get isLoggedIn() {

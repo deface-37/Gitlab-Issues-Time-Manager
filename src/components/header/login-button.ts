@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
-import { ApolloQueryController } from '@apollo-elements/core';
 import { GetAuth } from '../../apollo/state/auth.query';
 import auth from '../../auth/authFlow';
+import { queryControllerWithClient } from '../../apollo/controllerWithClient';
 
 @customElement('login-button')
 export class LoginButton extends LitElement {
@@ -15,7 +15,7 @@ export class LoginButton extends LitElement {
     `,
   ];
 
-  private authController = new ApolloQueryController(this, GetAuth);
+  private authController = queryControllerWithClient(this, GetAuth);
 
   get isLoggedIn() {
     return this.authController.data?.auth?.isLoggedIn;
