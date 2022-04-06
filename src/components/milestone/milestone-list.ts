@@ -5,11 +5,10 @@ import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
 import '@spectrum-web-components/progress-circle/sp-progress-circle.js';
 
-import { ApolloQueryController } from '@apollo-elements/core';
-
 import { absoluteCentred } from '../../styles/common.css';
 import { GetMilestones } from './getMilestones.query';
 import './Milestone';
+import { queryControllerWithClient } from '../../apollo/controllerWithClient';
 
 @customElement('milestone-list')
 export class MilestoneList extends LitElement {
@@ -34,7 +33,7 @@ export class MilestoneList extends LitElement {
     `,
   ];
 
-  private _milestonesController = new ApolloQueryController(this, GetMilestones);
+  private _milestonesController = queryControllerWithClient(this, GetMilestones);
 
   private get milestones() {
     return this._milestonesController?.data?.group?.milestones?.nodes || [];

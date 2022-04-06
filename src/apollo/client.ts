@@ -1,4 +1,3 @@
-import '@apollo-elements/components/apollo-client';
 import {
   ApolloClient,
   InMemoryCache,
@@ -43,25 +42,22 @@ const authLink = new ApolloLink((operation, forwards) => {
   return forwards(operation);
 });
 
-export function getNewClient(baseUrl: string) {
-  let url: string;
-  try {
-    url = new URL(graphqlURLAppend, baseUrl).toString();
-  } catch (e: any) {
-    console.error(e.message);
-    return null;
-  }
+const httpLink = new HttpLink({
+  uri() {
+    const settings = settingsVar();
 
-  const link = ApolloLink.from([
-    checkVarsLink,
-    authLink,
-    new HttpLink({
-      uri: url,
-    }),
-  ]);
+    try {
+      return new URL(graphqlURLAppend, settings.url).href;
+    } catch (error) {
+      console.error(error.message);
+      return 'http://example.com';
+    }
+  },
+});
 
-  return new ApolloClient({
-    link,
-    cache: new InMemoryCache({ typePolicies }),
-  });
-}
+const link = ApolloLink.from([checkVarsLink, authLink, httpLink]);
+
+export const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache({ typePolicies }),
+});

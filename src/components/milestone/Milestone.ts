@@ -2,7 +2,6 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
-import { ApolloQueryController } from '@apollo-elements/core';
 import { GetIssues } from '../Issues/issue.query';
 
 import '@spectrum-web-components/action-button/sp-action-button';
@@ -15,6 +14,7 @@ import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
 
 import '../Issues/IssuesList';
 import '../common/Loader';
+import { queryControllerWithClient } from '../../apollo/controllerWithClient';
 
 @customElement('milestone-lit')
 export default class MilestoneLit extends LitElement {
@@ -53,7 +53,7 @@ export default class MilestoneLit extends LitElement {
   @property()
   title: string;
 
-  _userController = new ApolloQueryController(this, getCurrentUserQuery, {
+  _userController = queryControllerWithClient(this, getCurrentUserQuery, {
     onData: (data) => {
       this._issuesController.variables = {
         ...this._issuesController.variables,
@@ -62,7 +62,7 @@ export default class MilestoneLit extends LitElement {
     },
   });
 
-  _issuesController = new ApolloQueryController(this, GetIssues, {
+  _issuesController = queryControllerWithClient(this, GetIssues, {
     variables: {
       milestone: this.title,
       groupName: null,

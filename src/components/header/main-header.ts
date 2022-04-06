@@ -15,8 +15,8 @@ import '@spectrum-web-components/overlay/overlay-trigger.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 
 import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
-import { ApolloQueryController } from '@apollo-elements/core';
 import { GetAuth } from '../../apollo/state/auth.query';
+import { queryControllerWithClient } from '../../apollo/controllerWithClient';
 
 @customElement('main-header')
 export class MainHeader extends LitElement {
@@ -38,8 +38,8 @@ export class MainHeader extends LitElement {
     `,
   ];
 
-  private userController = new ApolloQueryController(this, getCurrentUserQuery);
-  private authController = new ApolloQueryController(this, GetAuth);
+  private userController = queryControllerWithClient(this, getCurrentUserQuery);
+  private authController = queryControllerWithClient(this, GetAuth);
 
   render() {
     const additonalUrl = this.userController.data?.currentUser?.avatarUrl;

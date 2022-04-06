@@ -1,17 +1,15 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 
 import './style.scss';
-import { settingsVar } from './apollo/vars';
-import { getNewClient } from './apollo/client';
+import { client } from './apollo/client';
 
 import './components/header/main-header';
 import './components/milestone/milestone-list';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
-import '@apollo-elements/components/apollo-client';
-import { REFETCH_ALL, URL_UPDATED } from './eventNames';
+import { REFETCH_ALL } from './eventNames';
 
 @customElement('app-lit')
 export class AppLit extends LitElement {
@@ -21,7 +19,6 @@ export class AppLit extends LitElement {
       height: 100vh;
     }
 
-    apollo-client,
     sp-theme {
       height: 100%;
     }
@@ -48,17 +45,12 @@ export class AppLit extends LitElement {
     window.toString = () => '[object Window]';
   }
 
-  @state()
-  private _client = getNewClient(settingsVar().url);
-
   render() {
     return html`
-      <apollo-client .client=${this._client}>
-        <sp-theme color="light" scale="medium">
-          <main-header></main-header>
-          <milestone-list></milestone-list>
-        </sp-theme>
-      </apollo-client>
+      <sp-theme color="light" scale="medium">
+        <main-header></main-header>
+        <milestone-list></milestone-list>
+      </sp-theme>
     `;
   }
 
@@ -66,14 +58,9 @@ export class AppLit extends LitElement {
     super.connectedCallback();
 
     document.addEventListener(REFETCH_ALL, () => {
-      this._client.refetchQueries({
+      client.refetchQueries({
         include: 'all',
       });
-    });
-
-    document.addEventListener(URL_UPDATED, () => {
-      const settings = settingsVar();
-      this._client = getNewClient(settings.url);
     });
   }
 }
