@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
       - name: setup
         run: |
-          npm install
+          npm ci
           npm run codegen
       - name: publish
         run: npm run forge:publish
