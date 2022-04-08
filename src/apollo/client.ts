@@ -15,7 +15,6 @@ const typePolicies: TypePolicies = {
       appSettings() {
         return settingsVar();
       },
-      auth: () => authVar(),
     },
   },
 };

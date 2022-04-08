@@ -1,5 +1,5 @@
 import './update-button';
-import { settingsVar } from './../../apollo/vars';
+import { settingsVar, authVar } from './../../apollo/vars';
 import './login-button';
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
@@ -15,8 +15,8 @@ import '@spectrum-web-components/overlay/overlay-trigger.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 
 import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
-import { GetAuth } from '../../apollo/state/auth.query';
 import { queryControllerWithClient } from '../../apollo/controllerWithClient';
+import { ReactiveVariableController } from '@apollo-elements/core';
 
 @customElement('main-header')
 export class MainHeader extends LitElement {
@@ -39,13 +39,13 @@ export class MainHeader extends LitElement {
   ];
 
   private userController = queryControllerWithClient(this, getCurrentUserQuery);
-  private authController = queryControllerWithClient(this, GetAuth);
+  private authController = new ReactiveVariableController(this, authVar);
 
   render() {
     const additonalUrl = this.userController.data?.currentUser?.avatarUrl;
     const settings = settingsVar();
 
-    const avatar = this.authController.data?.auth?.isLoggedIn
+    const avatar = this.authController.value.isLoggedIn
       ? html`<sp-avatar
           slot="icon"
           size="400"

@@ -1,9 +1,9 @@
+import { authVar } from './../../apollo/vars';
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
-import { GetAuth } from '../../apollo/state/auth.query';
 import auth from '../../auth/authFlow';
-import { queryControllerWithClient } from '../../apollo/controllerWithClient';
+import { ReactiveVariableController } from '@apollo-elements/core';
 
 @customElement('login-button')
 export class LoginButton extends LitElement {
@@ -15,10 +15,10 @@ export class LoginButton extends LitElement {
     `,
   ];
 
-  private authController = queryControllerWithClient(this, GetAuth);
+  private authController = new ReactiveVariableController(this, authVar);
 
   get isLoggedIn() {
-    return this.authController.data?.auth?.isLoggedIn;
+    return this.authController.value.isLoggedIn;
   }
 
   @state()
