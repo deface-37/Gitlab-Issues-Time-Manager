@@ -13,13 +13,13 @@ export default class IssueLit extends LitElement {
   @property({ type: Number })
   estimated!: number;
   @property()
-  id: string;
+  id!: string;
   @property()
-  iid: string;
+  iid!: string;
   @property()
-  url: string;
+  url!: string;
   @property({ type: Boolean })
-  closed: boolean;
+  closed = false;
 
   static styles = css`
     :host {

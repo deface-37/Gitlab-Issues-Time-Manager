@@ -42,14 +42,15 @@ export class MainHeader extends LitElement {
   private authController = new ReactiveVariableController(this, authVar);
 
   render() {
-    const additonalUrl = this.userController.data?.currentUser?.avatarUrl;
+    const additonalUrlForAvatar = this.userController.data?.currentUser?.avatarUrl;
     const settings = settingsVar();
 
-    const avatar = this.authController.value.isLoggedIn
+    const hasAvatar = this.authController.value.isLoggedIn && additonalUrlForAvatar;
+    const avatar = hasAvatar
       ? html`<sp-avatar
           slot="icon"
           size="400"
-          src=${new URL(additonalUrl, settings.url).href}
+          src=${new URL(additonalUrlForAvatar, settings.url).href}
         ></sp-avatar>`
       : html`<sp-icon-user slot="icon"></sp-icon-user>`;
 

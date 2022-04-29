@@ -1,3 +1,4 @@
+import { MilestoneFieldsFragment } from './../../../_site/src/components/milestone/milestone.fragment';
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -36,7 +37,7 @@ export class MilestoneList extends LitElement {
   private _milestonesController = queryControllerWithClient(this, GetMilestones);
 
   private get milestones() {
-    return this._milestonesController?.data?.group?.milestones?.nodes || [];
+    return this._milestonesController.data?.group?.milestones?.nodes || [];
   }
 
   render() {
