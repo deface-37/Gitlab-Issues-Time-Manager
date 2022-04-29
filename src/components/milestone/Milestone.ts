@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
-import { GetIssues, GetIssuesQueryVariables } from '../Issues/issue.query';
+import { GetIssues } from '../Issues/issue.query';
 
 import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';

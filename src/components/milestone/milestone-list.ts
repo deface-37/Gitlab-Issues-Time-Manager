@@ -1,6 +1,5 @@
-import { MilestoneFieldsFragment } from './../../../_site/src/components/milestone/milestone.fragment';
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 
 import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
