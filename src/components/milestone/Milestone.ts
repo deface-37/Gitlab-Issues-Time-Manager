@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
-import { GetIssues } from '../Issues/issue.query';
+import { GetIssues, GetIssuesQueryVariables } from '../Issues/issue.query';
 
 import '@spectrum-web-components/action-button/sp-action-button';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
@@ -51,22 +51,24 @@ export default class MilestoneLit extends LitElement {
   ];
 
   @property()
-  title: string;
+  title!: string;
 
   _userController = queryControllerWithClient(this, getCurrentUserQuery, {
     onData: (data) => {
-      this._issuesController.variables = {
-        ...this._issuesController.variables,
-        currentUser: data.currentUser.username,
-      };
+      if (this._issuesController.variables) {
+        this._issuesController.variables = {
+          ...this._issuesController.variables,
+          currentUser: data.currentUser?.username || '',
+        };
+      }
     },
   });
 
   _issuesController = queryControllerWithClient(this, GetIssues, {
     variables: {
       milestone: this.title,
-      groupName: null,
-      currentUser: this._userController.data?.currentUser.username,
+      currentUser: this._userController.data?.currentUser?.username || '',
+      groupName: '',
     },
   });
 
@@ -87,7 +89,7 @@ export default class MilestoneLit extends LitElement {
   }
 
   willUpdate(props: Map<string, unknown>) {
-    if (props.has('title')) {
+    if (props.has('title') && this._issuesController.variables) {
       this._issuesController.variables = {
         ...this._issuesController.variables,
         milestone: this.title,

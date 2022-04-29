@@ -48,7 +48,7 @@ const httpLink = new HttpLink({
     try {
       return new URL(graphqlURLAppend, settings.url).href;
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
       return 'http://example.com';
     }
   },

@@ -209,7 +209,7 @@ class AuthFlow {
       });
       console.log('Обновили конфиг', this.configuration);
     } catch (error) {
-      console.error('Ошибка при создании конфига: ', error.message);
+      console.error('Ошибка при создании конфига: ', error);
     }
   }
 }

@@ -27,3 +27,5 @@ extensions:
         plugins:
           - typescript-operations
           - typed-document-node
+        config:
+          maybeValue: T
