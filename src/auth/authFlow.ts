@@ -14,12 +14,13 @@ import { REFETCH_ALL, URL_UPDATED } from '../eventNames';
 import { authVar, settingsVar } from '../apollo/vars';
 import { CustomAuthHandler } from './customAuthRequestHandler';
 
-const clientId = 'de0e40a83454a68ca4ec599798a8b1123dc5a33d0014d728ee872f9e6d8fb90d';
+const clientId = 'a73cd2544ee7dab223274ab6c2d3cc7758cf3a318dcf435eae6783ee8582dad6';
 const redirectUri = 'https://deface-37.github.io/Gitlab-Issues-Time-Manager/callback';
 const scope = 'api';
 
 interface StoredAuth {
   refreshToken?: string;
+  codeVerifier?: string;
 }
 
 class AuthFlow {
@@ -31,11 +32,10 @@ class AuthFlow {
   private tokenResponse: TokenResponse | undefined;
   private refreshToken: string | undefined;
   private repeatId: number | undefined;
+  private codeVerifier: string | undefined;
 
   constructor() {
     document.addEventListener(URL_UPDATED, () => {
-      console.log('url updated');
-
       const settings = settingsVar();
       this.setConfig(settings.url);
     });
@@ -46,6 +46,7 @@ class AuthFlow {
     if (json) {
       const storedAuth = JSON.parse(json) as StoredAuth;
       this.refreshToken = storedAuth.refreshToken;
+      this.codeVerifier = storedAuth.codeVerifier;
 
       this.requestRefreshToken()
         .then(() => {
@@ -85,6 +86,7 @@ class AuthFlow {
 
     const codeVerifier = request.internal?.code_verifier;
     if (!codeVerifier) throw new Error('Не передан code_verifier');
+    this.codeVerifier = codeVerifier;
 
     return this.makeTokenRequest(response.code, codeVerifier);
   }
@@ -146,7 +148,10 @@ class AuthFlow {
 
   private async requestRefreshToken(): Promise<void> {
     if (!this.refreshToken) {
-      throw new Error('Не найден refresh_token');
+      throw new Error('Не найден refresh token');
+    }
+    if (!this.codeVerifier) {
+      throw new Error('Не найден core verifier');
     }
 
     if (!this.configuration) throw new Error('Нет конфига');
@@ -156,6 +161,7 @@ class AuthFlow {
       grant_type: GRANT_TYPE_REFRESH_TOKEN,
       redirect_uri: redirectUri,
       refresh_token: this.refreshToken,
+      extras: { code_verifier: this.codeVerifier },
     });
 
     const response = await this.tokenHandler.performTokenRequest(this.configuration, request);
@@ -170,6 +176,7 @@ class AuthFlow {
   private storeAuth() {
     localStorage.auth = JSON.stringify({
       refreshToken: this.refreshToken,
+      codeVerifier: this.codeVerifier,
     });
 
     authVar({
