@@ -28,6 +28,7 @@ class IssuesList extends LitElement {
         estimated=${issue.timeEstimate}
         id=${issue.id}
         iid=${issue.iid}
+        projectIdNum=${issue.projectId}
         url=${issue.webUrl}
         ?closed=${issue.closedAt}
       ></issue-lit> `;

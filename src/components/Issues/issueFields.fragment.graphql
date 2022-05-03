@@ -6,4 +6,5 @@ fragment IssueFields on Issue {
   webUrl
   closedAt
   title
+  projectId
 }

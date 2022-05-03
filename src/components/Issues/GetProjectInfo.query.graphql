@@ -1,0 +1,8 @@
+query GetProjectInfo($projectIds: [ID!]) {
+  projects(ids: $projectIds) {
+    nodes {
+      id
+      fullPath
+    }
+  }
+}

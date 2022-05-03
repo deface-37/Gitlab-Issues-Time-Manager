@@ -1,5 +1,7 @@
-import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { queryControllerWithClient } from './../../apollo/controllerWithClient';
+import { GetProjectInfo } from './GetProjectPathInfo.query';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
 import '@spectrum-web-components/link/sp-link.js';
@@ -20,6 +22,18 @@ export default class IssueLit extends LitElement {
   url!: string;
   @property({ type: Boolean })
   closed = false;
+  @property({ type: Number })
+  projectIdNum!: number;
+  @state()
+  projectFullPath?: string;
+  projectId?: string;
+
+  private projectController = queryControllerWithClient(this, GetProjectInfo, {
+    variables: { projectIds: this.projectId },
+    onData: (data) => {
+      this.projectFullPath = data.projects?.nodes?.[0].fullPath;
+    },
+  });
 
   static styles = css`
     :host {
@@ -49,6 +63,17 @@ export default class IssueLit extends LitElement {
       <div>Потрачено: ${formatIssueTime(this.spent)}</div>
       <div>Оценено: ${formatIssueTime(this.estimated)}</div>
     `;
+  }
+
+  protected willUpdate(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    if (_changedProperties.has('projectIdNum')) {
+      this.projectId = `gid://gitlab/Project/${this.projectIdNum}`;
+      this.projectController.executeQuery({
+        variables: { projectIds: this.projectId },
+      });
+    }
   }
 }
 
