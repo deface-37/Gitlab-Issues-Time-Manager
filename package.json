@@ -39,7 +39,7 @@
     "@graphql-codegen/typed-document-node": "^2.2.8",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.18.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.2",
     "css-loader": "^6.7.1",
