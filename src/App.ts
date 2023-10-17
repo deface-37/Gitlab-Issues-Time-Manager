@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import './style.scss';
+import './style.css';
 import { client } from './apollo/client';
 
 import './components/header/main-header';

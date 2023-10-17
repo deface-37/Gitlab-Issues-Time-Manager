@@ -6,8 +6,6 @@ import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('update-electron-app')();
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
   app.quit();
@@ -36,7 +34,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
@@ -63,7 +61,12 @@ function createWindow(): void {
     mainWindow.focus();
   });
 
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  // mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+  }
 }
 
 ipcMain.handle('start-auth', () => {

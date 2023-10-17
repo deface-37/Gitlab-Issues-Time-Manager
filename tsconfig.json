@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "target": "ES2021",
-    "module": "ES2022",
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "commonjs",
     "sourceMap": true,
     "noImplicitAny": true,
     "allowJs": true,
@@ -12,9 +12,11 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
     "strict": true,
   },
   "include": [
-    "src/**/*"
+    "src"
   ]
 }

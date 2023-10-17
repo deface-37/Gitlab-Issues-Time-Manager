@@ -96,6 +96,9 @@ src/schema.ts
 # Webpack
 .webpack/
 
+#vite
+.vite/
+
 # Electron-Forge
 out/
 
