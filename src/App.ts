@@ -24,8 +24,8 @@ export class AppLit extends LitElement {
     }
 
     sp-theme {
-      background-color: var(--spectrum-global-color-gray-100);
-      color: var(--spectrum-global-color-gray-900);
+      background-color: var(--spectrum-gray-100);
+      color: var(--spectrum-gray-800);
       display: flex;
       flex-direction: column;
     }
@@ -39,15 +39,9 @@ export class AppLit extends LitElement {
     }
   `;
 
-  constructor() {
-    super();
-    // Чтобы корректно работал overlay
-    window.toString = () => '[object Window]';
-  }
-
   render() {
     return html`
-      <sp-theme color="light" scale="medium">
+      <sp-theme color="light" scale="medium" theme="spectrum">
         <main-header></main-header>
         <milestone-list></milestone-list>
       </sp-theme>

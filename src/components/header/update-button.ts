@@ -5,7 +5,6 @@ import '@spectrum-web-components/action-button/sp-action-button.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-data-refresh.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
-import '@spectrum-web-components/overlay/overlay-trigger.js';
 import { REFETCH_ALL } from '../../eventNames';
 
 @customElement('update-button')

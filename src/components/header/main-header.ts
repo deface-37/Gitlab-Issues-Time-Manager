@@ -11,7 +11,6 @@ import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-user.js';
 import './settings-button-wrapper';
 import '@spectrum-web-components/popover/sp-popover.js';
-import '@spectrum-web-components/overlay/overlay-trigger.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 
 import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
@@ -35,6 +34,11 @@ export class MainHeader extends LitElement {
         background-color: var(--spectrum-global-color-gray-100);
         color: var(--spectrum-global-color-gray-900);
       }
+
+      /* Размер иконки в кнопке */
+      sp-avatar {
+        --mod-actionbutton-icon-size: var(--spectrum-avatar-size-400);
+      }
     `,
   ];
 
@@ -54,12 +58,14 @@ export class MainHeader extends LitElement {
         ></sp-avatar>`
       : html`<sp-icon-user slot="icon"></sp-icon-user>`;
 
+      // const avatar = html`<sp-icon-user slot="icon"></sp-icon-user>`;
+
     return html`
       <sp-theme color="lightest" scale="medium">
         <sp-top-nav size="l">
           <sp-top-nav-item id="plan-tab" href="#">Планирование</sp-top-nav-item>
           <update-button class="right"></update-button>
-          <sp-action-menu id="menu" size="m">
+          <sp-action-menu id="menu" size="m" quiet static="white">
             ${avatar}
             <settings-button-wrapper></settings-button-wrapper>
             <login-button></login-button>

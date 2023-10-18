@@ -4,7 +4,7 @@ import { formatIssueTime } from '../../helpers/format-helper';
 
 import { GetIssues } from '../Issues/issue.query';
 
-import '@spectrum-web-components/action-button/sp-action-button';
+import '@spectrum-web-components/action-button/sp-action-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-refresh.js';
 import '@spectrum-web-components/divider/sp-divider.js';
 import '@spectrum-web-components/progress-circle/sp-progress-circle.js';
