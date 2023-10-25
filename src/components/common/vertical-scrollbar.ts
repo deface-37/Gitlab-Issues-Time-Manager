@@ -27,22 +27,18 @@ export class VerticalScrollbar extends LitElement {
     ::-webkit-scrollbar-thumb {
       border: 3px solid transparent;
       background-clip: padding-box;
-      background-color: #aaaaaa;
+      background-color: var(--spectrum-gray-400);
       -webkit-border-radius: 100px;
       border-radius: 100px;
     }
 
-    /* div:hover::-webkit-scrollbar-thumb:vertical {
-            background-color: rgba(0, 0, 0, 0.4);
-        } */
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--spectrum-gray-600);
+    }
 
-    /* ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(0, 0, 0, 0.55);
-        }
-
-        ::-webkit-scrollbar-thumb:vertical:active {
-            background-color: rgba(0, 0, 0, 0.61);
-        } */
+    ::-webkit-scrollbar-thumb:vertical:active {
+      background-color: var(--spectrum-gray-700);
+    }
   `;
 
   render() {
