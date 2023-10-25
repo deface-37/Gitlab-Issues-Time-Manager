@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './Issue';
+import '../common/vertical-scrollbar';
 
 import { IssueFieldsFragment } from './issueFields.fragment';
 
@@ -9,7 +10,7 @@ class IssuesList extends LitElement {
   static styles = css`
     :host {
       display: block;
-      overflow-y: auto;
+      overflow-y: hidden;
     }
 
     issue-lit {
@@ -21,17 +22,21 @@ class IssuesList extends LitElement {
   issues: IssueFieldsFragment[] = [];
 
   render() {
-    return this.issues.map((issue) => {
-      return html`<issue-lit
-        title=${issue.title}
-        spent=${issue.totalTimeSpent}
-        estimated=${issue.timeEstimate}
-        id=${issue.id}
-        iid=${issue.iid}
-        url=${issue.webUrl}
-        ?closed=${issue.closedAt}
-      ></issue-lit> `;
-    });
+    return html`<vertical-scrollbar>
+      ${this.issues.map(
+        (issue) => html`
+          <issue-lit
+            title=${issue.title}
+            spent=${issue.totalTimeSpent}
+            estimated=${issue.timeEstimate}
+            id=${issue.id}
+            iid=${issue.iid}
+            url=${issue.webUrl}
+            ?closed=${issue.closedAt}
+          ></issue-lit>
+        `,
+      )}
+    </vertical-scrollbar>`;
   }
 }
 
