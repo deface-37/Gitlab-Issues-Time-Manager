@@ -11,14 +11,10 @@ import { REFETCH_ALL } from '../../eventNames';
 export class UpdateButton extends LitElement {
   render() {
     return html`
-      <overlay-trigger offset="3">
         <sp-action-button slot="trigger" quiet @click=${this._clickHandler}>
           <sp-icon-data-refresh slot="icon"></sp-icon-data-refresh>
+          <sp-tooltip self-managed placement="bottom" >Обновить данные</sp-tooltip>
         </sp-action-button>
-        <sp-tooltip slot="hover-content" placement="bottom" open delayed
-          >Обновить данные</sp-tooltip
-        >
-      </overlay-trigger>
     `;
   }
 
