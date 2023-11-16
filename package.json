@@ -71,7 +71,7 @@
     "@spectrum-web-components/textfield": "^0.39.2",
     "@spectrum-web-components/theme": "^0.39.2",
     "@spectrum-web-components/tooltip": "^0.39.2",
-    "@spectrum-web-components/top-nav": "^0.39.2",
+    "@spectrum-web-components/top-nav": "^0.40.0",
     "@spectrum-web-components/underlay": "^0.39.2",
     "electron-squirrel-startup": "^1.0.0",
     "lit": "^3.0.0",
