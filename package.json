@@ -58,7 +58,7 @@
     "@spectrum-web-components/action-button": "^0.39.2",
     "@spectrum-web-components/action-menu": "^0.39.2",
     "@spectrum-web-components/avatar": "^0.39.2",
-    "@spectrum-web-components/button": "^0.39.2",
+    "@spectrum-web-components/button": "^0.40.1",
     "@spectrum-web-components/dialog": "^0.39.2",
     "@spectrum-web-components/divider": "^0.39.2",
     "@spectrum-web-components/field-label": "^0.39.2",
