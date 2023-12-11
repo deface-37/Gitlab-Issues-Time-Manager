@@ -82,10 +82,6 @@ export default class IssueLit extends LitElement {
     this.dataHidden = !this.dataHidden;
 
     if (this.dataHidden) {
-      const a = new CustomEvent<string>("click", {
-        detail: ""
-      })
-
       this.dispatchEvent(
         new CustomEvent(ISSUE_HIDDEN, {
           detail: this.id,
