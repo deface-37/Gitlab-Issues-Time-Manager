@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { formatIssueTime } from '../../helpers/format-helper';
 
 import { GetIssues } from '../Issues/issue.query';
@@ -15,6 +15,7 @@ import { getCurrentUserQuery } from '../../apollo/getCurrentUser.query';
 import '../Issues/IssuesList';
 import '../common/Loader';
 import { queryControllerWithClient } from '../../apollo/controllerWithClient';
+import { ISSUE_HIDDEN, ISSUE_DISPLAY } from '../../eventNames';
 
 @customElement('milestone-lit')
 export default class MilestoneLit extends LitElement {
@@ -53,6 +54,23 @@ export default class MilestoneLit extends LitElement {
   @property()
   title!: string;
 
+  @state()
+  private _excludeIssuesList = new Set<string>();
+
+  constructor() {
+    super();
+
+    this.addEventListener(ISSUE_HIDDEN, (e) => {
+      this._excludeIssuesList.add(e.detail);
+      this.requestUpdate();
+    });
+
+    this.addEventListener(ISSUE_DISPLAY, (e) => {
+      this._excludeIssuesList.delete(e.detail);
+      this.requestUpdate();
+    });
+  }
+
   _userController = queryControllerWithClient(this, getCurrentUserQuery, {
     onData: (data) => {
       if (this._issuesController.variables) {
@@ -72,8 +90,12 @@ export default class MilestoneLit extends LitElement {
     },
   });
 
+  private get _filteredIssue() {
+    return this._issuesList.filter((issue) => !this._excludeIssuesList.has(issue.id));
+  }
+
   private _getTotalSpentTime(): string {
-    const timeInSeconds = this._issuesList.reduce((totalTime, issue) => {
+    const timeInSeconds = this._filteredIssue.reduce((totalTime, issue) => {
       return totalTime + issue.totalTimeSpent;
     }, 0);
 
@@ -81,7 +103,7 @@ export default class MilestoneLit extends LitElement {
   }
 
   private _getTotalEstimatedTime(): string {
-    const timeInSeconds = this._issuesList.reduce((totalTime, issue) => {
+    const timeInSeconds = this._filteredIssue.reduce((totalTime, issue) => {
       return totalTime + issue.timeEstimate;
     }, 0);
 
