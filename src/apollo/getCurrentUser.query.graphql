@@ -1,5 +1,8 @@
 query getCurrentUserQuery {
   currentUser {
-    ...UserFields
+    name
+    username
+    id
+    avatarUrl
   }
 }

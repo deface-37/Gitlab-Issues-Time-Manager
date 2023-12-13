@@ -1,6 +1,0 @@
-fragment UserFields on User {
-  name
-  username
-  id
-  avatarUrl
-}
