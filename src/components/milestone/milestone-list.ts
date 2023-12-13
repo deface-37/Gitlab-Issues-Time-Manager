@@ -39,7 +39,7 @@ export class MilestoneList extends LitElement {
   }
 
   render() {
-    if (this._milestonesController.networkStatus < 7)
+    if (this._milestonesController.loading || this._milestonesController.networkStatus < 7)
       return html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`;
 
     return html`

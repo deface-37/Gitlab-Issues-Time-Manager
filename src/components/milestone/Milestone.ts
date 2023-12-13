@@ -125,7 +125,7 @@ export default class MilestoneLit extends LitElement {
 
   render() {
     const issuesList =
-      this._issuesController.networkStatus < 7
+      this._issuesController.loading || this._issuesController.networkStatus < 7
         ? html`<sp-progress-circle class="absolute-centred" indeterminate></sp-progress-circle>`
         : html`<issues-list .issues=${this._issuesList}></issues-list>`;
 
