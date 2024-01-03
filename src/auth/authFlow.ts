@@ -13,6 +13,7 @@ import {
 import { REFETCH_ALL, URL_UPDATED } from '../eventNames';
 import { authVar, settingsVar } from '../apollo/vars';
 import { CustomAuthHandler } from './customAuthRequestHandler';
+import { Settings } from '../localStorage/settings';
 
 const clientId = 'a73cd2544ee7dab223274ab6c2d3cc7758cf3a318dcf435eae6783ee8582dad6';
 const redirectUri = 'https://deface-37.github.io/Gitlab-Issues-Time-Manager/callback';
@@ -23,7 +24,7 @@ interface StoredAuth {
   codeVerifier?: string;
 }
 
-class AuthFlow {
+export class AuthFlow {
   private configuration: AuthorizationServiceConfiguration | undefined;
 
   private authorizationHandler = new CustomAuthHandler();
@@ -34,12 +35,11 @@ class AuthFlow {
   private repeatId: number | undefined;
   private codeVerifier: string | undefined;
 
-  constructor() {
+  constructor(settings: Settings) {
     document.addEventListener(URL_UPDATED, () => {
-      const settings = settingsVar();
-      this.setConfig(settings.url);
+      this.setConfig(settingsVar().url);
     });
-    const settings = settingsVar();
+
     this.setConfig(settings.url);
 
     const json = localStorage.getItem('auth');
@@ -69,7 +69,7 @@ class AuthFlow {
         state: undefined,
       },
       undefined,
-      true
+      true,
     );
 
     console.log('Делаем авторизационный запрос ', this.configuration, request);
@@ -192,7 +192,7 @@ class AuthFlow {
     }
     this.repeatId = setInterval(
       this.requestRefreshToken.bind(this) as TimerHandler,
-      1000 * 60 * 90
+      1000 * 60 * 90,
     );
   }
 
@@ -213,5 +213,3 @@ class AuthFlow {
     }
   }
 }
-
-export default new AuthFlow();

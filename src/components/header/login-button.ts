@@ -2,8 +2,9 @@ import { authVar } from './../../apollo/vars';
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
-import auth from '../../auth/authFlow';
 import { ReactiveVariableController } from '@apollo-elements/core';
+import { type AuthFlow, authContext } from '../../contexts/auth-context';
+import { consume } from '@lit/context';
 
 @customElement('login-button')
 export class LoginButton extends LitElement {
@@ -24,6 +25,9 @@ export class LoginButton extends LitElement {
   @state()
   private loginInProgress = false;
 
+  @consume({ context: authContext })
+  private auth?: AuthFlow;
+
   render() {
     const text = this.isLoggedIn ? 'Выйти' : 'Войти';
     const clickHandler = this.isLoggedIn ? this.logoutButtonHandler : this.loginButtonHandler;
@@ -35,11 +39,11 @@ export class LoginButton extends LitElement {
 
   private loginButtonHandler() {
     this.loginInProgress = true;
-    auth.makeAuthRequest().finally(() => {
+    this.auth?.makeAuthRequest().finally(() => {
       this.loginInProgress = false;
     });
   }
   private logoutButtonHandler() {
-    auth.revokeToken();
+    this.auth?.revokeToken();
   }
 }

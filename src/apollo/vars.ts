@@ -1,5 +1,5 @@
 import { makeVar } from '@apollo/client/core';
-import { getSettings } from '../localStorage/settings';
+import { defaultSettings } from '../localStorage/settings';
 
 interface AuthInfo {
   accessToken?: string;
@@ -7,5 +7,5 @@ interface AuthInfo {
   refreshToken?: string;
 }
 
-export const settingsVar = makeVar(getSettings());
+export const settingsVar = makeVar(defaultSettings);
 export const authVar = makeVar<AuthInfo>({ isLoggedIn: false });

@@ -11,6 +11,12 @@ import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import { REFETCH_ALL } from './eventNames';
 
+import { authContext } from './contexts/auth-context';
+import { AuthFlow } from './auth/authFlow';
+import { provide } from '@lit/context';
+import { settingsVar } from './apollo/vars';
+import { getSettings } from './localStorage/settings';
+
 @customElement('app-lit')
 export class AppLit extends LitElement {
   static styles = css`
@@ -31,13 +37,23 @@ export class AppLit extends LitElement {
     }
 
     main-header {
-      flex: 0, 0 auto;
+      flex:
+        0,
+        0 auto;
     }
 
     milestone-list {
       flex: 1 1 auto;
     }
   `;
+
+  @provide({ context: authContext })
+  authFlow = new AuthFlow(getSettings());
+
+  constructor() {
+    super();
+    settingsVar(getSettings());
+  }
 
   render() {
     return html`
@@ -50,11 +66,17 @@ export class AppLit extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    document.addEventListener(REFETCH_ALL, this.onRefetch);
+  }
 
-    document.addEventListener(REFETCH_ALL, () => {
-      client.refetchQueries({
-        include: 'all',
-      });
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener(REFETCH_ALL, this.onRefetch);
+  }
+
+  private onRefetch() {
+    client.refetchQueries({
+      include: 'all',
     });
   }
 }
