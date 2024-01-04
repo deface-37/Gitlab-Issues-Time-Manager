@@ -19,7 +19,7 @@ export class MilestoneList extends LitElement {
         display: flex;
         justify-content: start;
         gap: 50px;
-        overflow-x: scroll;
+        overflow-x: auto;
         padding: 20px 20px 5px;
         box-sizing: border-box;
       }

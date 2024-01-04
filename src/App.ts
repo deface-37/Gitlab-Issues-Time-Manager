@@ -6,6 +6,7 @@ import { client } from './apollo/client';
 
 import './components/header/main-header';
 import './components/milestone/milestone-list';
+import './components/footer/footer';
 
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -45,6 +46,10 @@ export class AppLit extends LitElement {
     milestone-list {
       flex: 1 1 auto;
     }
+
+    status-footer {
+      flex: 0 0 20px;
+    }
   `;
 
   @provide({ context: authContext })
@@ -60,6 +65,7 @@ export class AppLit extends LitElement {
       <sp-theme color="light" scale="medium" theme="spectrum">
         <main-header></main-header>
         <milestone-list></milestone-list>
+        <status-footer></status-footer>
       </sp-theme>
     `;
   }
