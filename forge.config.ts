@@ -1,9 +1,12 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { VitePlugin } from '@electron-forge/plugin-vite';
+import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
 
 const config: ForgeConfig = {
-  packagerConfig: {},
+  packagerConfig: {
+    asar: true,
+  },
   rebuildConfig: {},
   makers: [new MakerSquirrel({})],
   plugins: [
@@ -28,6 +31,7 @@ const config: ForgeConfig = {
         },
       ],
     }),
+    new AutoUnpackNativesPlugin({}),
   ],
 };
 
