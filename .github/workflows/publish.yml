@@ -10,8 +10,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4.1.1
-        with:
-          path: gim
       - uses: actions/setup-node@v4.0.1
       - name: setup
         run: |
