@@ -1,11 +1,23 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { VitePlugin } from '@electron-forge/plugin-vite';
+import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
+import { PublisherGithub } from '@electron-forge/publisher-github';
 
 const config: ForgeConfig = {
-  packagerConfig: {},
+  packagerConfig: {
+    asar: true,
+  },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({})],
+  makers: [new MakerSquirrel({ name: 'gitlab-time-manager' })],
+  publishers: [
+    new PublisherGithub({
+      repository: {
+        owner: 'deface-37',
+        name: 'Gitlab-Issues-Time-Manager',
+      },
+    }),
+  ],
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
@@ -19,7 +31,7 @@ const config: ForgeConfig = {
         {
           entry: './src/electron/preload.ts',
           config: 'vite.preload.config.ts',
-        }
+        },
       ],
       renderer: [
         {
@@ -28,7 +40,9 @@ const config: ForgeConfig = {
         },
       ],
     }),
+    new AutoUnpackNativesPlugin({}),
   ],
 };
 
 export default config;
+
