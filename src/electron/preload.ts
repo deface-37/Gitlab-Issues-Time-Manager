@@ -1,4 +1,4 @@
-import isDev from 'electron-is-dev';
+// import isDev from 'electron-is-dev';
 import { ipcRenderer, shell, contextBridge, autoUpdater, app } from 'electron';
 
 contextBridge.exposeInMainWorld('ipc', {
@@ -11,9 +11,9 @@ contextBridge.exposeInMainWorld('electron', {
 
 contextBridge.exposeInMainWorld('updater', {
   initAutoUpdate: () => {
-    if (isDev) {
-      return;
-    }
+    // if (isDev) {
+    //   return;
+    // }
 
     const server = 'https://kazabot-deployment.vercel.app';
     const url = `${server}/update/${process.platform}/${app.getVersion()}`;

@@ -1,10 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import installExtension, { APOLLO_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-// import isDev from 'electron-is-dev';
 import path from 'path';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('update-electron-app')();
 
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
