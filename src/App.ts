@@ -58,6 +58,7 @@ export class AppLit extends LitElement {
   constructor() {
     super();
     settingsVar(getSettings());
+    window.updater.initAutoUpdate();
   }
 
   render() {
