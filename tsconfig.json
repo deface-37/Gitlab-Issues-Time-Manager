@@ -16,7 +16,4 @@
     "baseUrl": ".",
     "strict": true,
   },
-  "include": [
-    "src"
-  ]
 }
