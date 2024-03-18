@@ -1,5 +1,6 @@
-// import isDev from 'electron-is-dev';
-import { ipcRenderer, shell, contextBridge, autoUpdater, app } from 'electron';
+import { UpdateApi } from './renderer.d';
+import { ipcRenderer, shell, contextBridge } from 'electron';
+import { UpdaterEvents } from './ipc-events';
 
 contextBridge.exposeInMainWorld('ipc', {
   startAuth: (): Promise<string> => ipcRenderer.invoke('start-auth'),
@@ -9,27 +10,17 @@ contextBridge.exposeInMainWorld('electron', {
   openExternal: (url: string) => shell.openExternal(url),
 });
 
-contextBridge.exposeInMainWorld('updater', {
+const updateApi: UpdateApi = {
   initAutoUpdate: () => {
-    // if (isDev) {
-    //   return;
-    // }
-
-    const server = 'https://kazabot-deployment.vercel.app';
-    const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-    autoUpdater.setFeedURL({ url });
-
-    autoUpdater.checkForUpdates();
-    setInterval(() => autoUpdater.checkForUpdates(), 60000);
+    console.log('Updating');
+    ipcRenderer.send(UpdaterEvents.Init);
   },
 
-  addOnDownloaded: (handler: () => void) => {
-    autoUpdater.on('update-downloaded', handler);
+  get downloaded() {
+    return ipcRenderer.invoke(UpdaterEvents.Downloaded);
   },
 
-  removeOnDownloaded: (handler: () => void) => {
-    autoUpdater.removeListener('update-downloaded', handler);
-  },
+  quitAndUpdate: () => ipcRenderer.send(UpdaterEvents.QuitAndUpdate),
+};
+contextBridge.exposeInMainWorld('updater', updateApi);
 
-  quitAndUpdate: () => autoUpdater.quitAndInstall(),
-});

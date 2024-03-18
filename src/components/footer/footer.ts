@@ -4,6 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import '@spectrum-web-components/status-light/sp-status-light.js';
 
 import './status-light'
+import './update-status'
 
 @customElement('status-footer')
 export class StatusFooter extends LitElement {
@@ -16,7 +17,9 @@ export class StatusFooter extends LitElement {
 
         display: flex;
         justify-content: end;
-        margin-right: 20px;
+        align-items: center;
+        padding-right: 10px;
+        gap: 10px;
       }
     `,
   ];
@@ -25,6 +28,7 @@ export class StatusFooter extends LitElement {
   render() {
     return html`
       <sp-theme color="lightest" scale="medium">
+        <update-status></update-status>
         <status-light></status-light>
       </sp-theme>
     `;

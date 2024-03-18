@@ -1,6 +1,8 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import isDev from 'electron-is-dev';
+import { app, autoUpdater, BrowserWindow, ipcMain, shell } from 'electron';
 import installExtension, { APOLLO_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import path from 'path';
+import { UpdaterEvents } from './ipc-events';
 
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -21,10 +23,17 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.whenReady().then(createWindow);
+  app.whenReady().then(() => {
+    createWindow();
+
+    // Инициализируем проверку обновления
+    ipcMain.on(UpdaterEvents.Init, () => {
+      handleOnInitUpdate();
+    });
+  });
 }
 
-function createWindow(): void {
+function createWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({
     show: false,
     autoHideMenuBar: true,
@@ -35,7 +44,7 @@ function createWindow(): void {
   });
 
   installExtension(APOLLO_DEVELOPER_TOOLS);
-  if (process.defaultApp) {
+  if (isDev) {
     mainWindow.webContents.openDevTools({
       mode: 'undocked',
     });
@@ -63,6 +72,18 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
+
+  return mainWindow;
+}
+
+function handleOnInitUpdate() {
+  const server = 'https://update.electronjs.org';
+  const url = `${server}/deface-37/Gitlab-Issues-Time-Manager/${
+    process.platform
+  }/${app.getVersion()}`;
+  
+  autoUpdater.setFeedURL({ url });
+  setInterval(() => autoUpdater.checkForUpdates(), 60000);
 }
 
 ipcMain.handle('start-auth', () => {
@@ -73,6 +94,18 @@ ipcMain.handle('start-auth', () => {
     });
   });
 });
+
+// Обрабатываем завершение обновления
+ipcMain.handle(UpdaterEvents.Downloaded, (): Promise<void> => {
+  return new Promise((resolve) => {
+    autoUpdater.once('update-downloaded', () => {
+      resolve();
+    });
+  });
+});
+
+// Выходим и обновляем
+ipcMain.on(UpdaterEvents.QuitAndUpdate, () => autoUpdater.quitAndInstall());
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

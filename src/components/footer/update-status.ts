@@ -1,6 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-assets-downloaded.js';
+import '@spectrum-web-components/tooltip/sp-tooltip.js';
+
 @customElement('update-status')
 export class UpdateStatus extends LitElement {
   static styles = [css``];
@@ -10,23 +13,23 @@ export class UpdateStatus extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.updater.addOnDownloaded(this._onDownloaded);
+    window.updater.downloaded.then(() => (this._downloaded = true));
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.updater.removeOnDownloaded(this._onDownloaded);
-  }
-
-  private _onDownloaded(): void {
-    this._downloaded = true;
-  }
-
+  // TODO: добавить индикатор ожидания на загрузку обновления
+  // TODO: убрать индикатор обновления, пока нет доступных обновлений
+  // TODO: добавить описание новой версии
   render() {
     return html`
-      <sp-button ?disabled=${!this._downloaded} @click=${() => window.updater.quitAndUpdate()}>
-        <sp-icon-alert slot="icon"></sp-icon-alert>
-        Перезапустить и обновить
+      <sp-button
+        icon-only
+        size="s"
+        variant="accent"
+        ?disabled=${!this._downloaded}
+        @click=${() => window.updater.quitAndUpdate()}
+      >
+        <sp-icon-assets-downloaded slot="icon"></sp-icon-assets-downloaded>
+        <sp-tooltip self-managed>Перезапустить и обновить</sp-tooltip>
       </sp-button>
     `;
   }

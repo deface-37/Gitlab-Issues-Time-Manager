@@ -8,8 +8,7 @@ export interface ElectronApi {
 
 export interface UpdateApi {
   initAutoUpdate: () => void;
-  addOnDownloaded: (handler: () => void) => void;
-  removeOnDownloaded: (handler: () => void) => void;
+  downloaded: Promise<void>;
   quitAndUpdate: () => void;
 }
 
