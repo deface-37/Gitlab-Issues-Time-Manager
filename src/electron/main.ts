@@ -77,11 +77,15 @@ function createWindow(): BrowserWindow {
 }
 
 function handleOnInitUpdate() {
+  if (isDev) {
+    return;
+  }
+
   const server = 'https://update.electronjs.org';
   const url = `${server}/deface-37/Gitlab-Issues-Time-Manager/${
     process.platform
   }/${app.getVersion()}`;
-  
+
   autoUpdater.setFeedURL({ url });
   setInterval(() => autoUpdater.checkForUpdates(), 60000);
 }
